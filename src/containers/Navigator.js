@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import AppContainer from './AppContainer';
+import BottomTabLayout from './BottomTabLayout';
 import {SplashScreen} from './SplashScreen';
 
 const Navigator = () => {
@@ -9,7 +9,7 @@ const Navigator = () => {
     setVisible(true);
   }, 3000);
 
-  return !visible ? <SplashScreen /> : <AppContainer />;
+  return !visible ? <SplashScreen /> : <BottomTabLayout />;
 };
 
 export default Navigator;

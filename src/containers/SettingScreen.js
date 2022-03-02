@@ -1,21 +1,15 @@
 import React from 'react';
 import {Text, View, StyleSheet, ScrollView} from 'react-native';
-import EventRecCard from '../component/EventRecCard';
 
-const HomeScreen = () => {
+
+const SettingScreen = () => {
   return (
     <View style={styles.container}>
-      <ScrollView horizontal>
-        <View style={styles.rowView}>
-          <EventRecCard />
-          <EventRecCard />
-          <EventRecCard />
-        </View>
-      </ScrollView>
+      <Text>TicketScreen</Text>
     </View>
   );
 };
-export default HomeScreen;
+export default SettingScreen;
 
 const styles = StyleSheet.create({
   container: {

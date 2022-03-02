@@ -2,6 +2,7 @@ import React from 'react';
 import {Text, View, StyleSheet, ImageBackground} from 'react-native';
 import EventTimeSvg from '../assets/svgs/EventTimeSvg';
 import TicketSvg from '../assets/svgs/TicketSvg';
+import fonts from '../theme/fonts';
 
 const EventRecCard = () => {
   return (
@@ -81,7 +82,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   txtTicket: {
-    fontFamily: 'Montserrat',
+    // fontFamily: 'Montserrat',
+    ...fonts.normalM,
     fontSize: 12,
     fontWeight: 'bold',
     lineHeight: 20,
@@ -101,14 +103,16 @@ const styles = StyleSheet.create({
   },
   rowView: {justifyContent: 'space-between', flexDirection: 'row'},
   txtFriend: {
-    fontFamily: 'Montserrat',
+    // fontFamily: 'Montserrat',
+    ...fonts.normalM,
     fontSize: 13,
     fontWeight: '500',
     lineHeight: 16,
     color: 'white',
   },
   txtTime: {
-    fontFamily: 'Montserrat',
+    // fontFamily: 'Montserrat',
+    ...fonts.normalM,
     fontSize: 13,
     fontWeight: '600',
     lineHeight: 16,

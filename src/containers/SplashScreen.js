@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   txtCopy: {
-    fontFamily: 'Montserrat',
+    fontFamily: 'Montserrat-Bold',
+    // ...fonts.normalM,
     fontSize: 12,
     fontWeight: '500',
     lineHeight: 15,
