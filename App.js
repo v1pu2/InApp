@@ -2,13 +2,13 @@ import React from 'react';
 
 import {SafeAreaView, StyleSheet, StatusBar} from 'react-native';
 import Navigator from './src/containers/Navigator';
-
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 const App = () => {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaProvider>
       <StatusBar barStyle="light-content" backgroundColor={'#7555CF'} />
       <Navigator />
-    </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 
