@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import AppContainer from './AppContainer';
 import {SplashScreen} from './SplashScreen';
 
 const Navigator = () => {
@@ -7,7 +8,8 @@ const Navigator = () => {
   setTimeout(() => {
     setVisible(true);
   }, 3000);
-  return !visible ? <SplashScreen /> : <SplashScreen />;
+
+  return !visible ? <SplashScreen /> : <AppContainer />;
 };
 
 export default Navigator;
