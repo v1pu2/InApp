@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text, View, StyleSheet, ScrollView, StatusBar} from 'react-native';
+import AllEventCard from '../component/AllEventCard';
 import EventRecCard from '../component/EventRecCard';
 import GeneralStatusBarColor from '../component/GeneralStatusBarColor';
 import fonts from '../theme/fonts';
@@ -14,21 +15,23 @@ const HomeScreen = () => {
       <View style={styles.topView}>
         <Text style={styles.txtWelcome}>Welcome</Text>
       </View>
-      <Text style={styles.txtRecEvent}>Recommended Events</Text>
-      <View>
-        <ScrollView horizontal contentContainerStyle={styles.root}>
-          <View style={styles.rowView}>
-            <EventRecCard />
-            <EventRecCard />
-            <EventRecCard />
+      <View style={{backgroundColor: '#F9F6F6'}}>
+        <Text style={styles.txtRecEvent}>Recommended Events</Text>
+        <View>
+          <ScrollView horizontal contentContainerStyle={styles.root}>
+            <View style={styles.rowView}>
+              <EventRecCard />
+              <EventRecCard />
+              <EventRecCard />
+            </View>
+          </ScrollView>
+          <View style={{backgroundColor: '#E5E5E5'}}>
+            <Text style={styles.txtRecEvent}>All Events</Text>
+            <ScrollView>
+              <AllEventCard />
+            </ScrollView>
           </View>
-        </ScrollView>
-        <Text style={styles.txtRecEvent}>All Events</Text>
-        <ScrollView>
-          <View styles={{backgroundColor: 'red'}}>
-            <Text>vertical view</Text>
-          </View>
-        </ScrollView>
+        </View>
       </View>
     </View>
   );
@@ -72,6 +75,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '500',
     lineHeight: 16,
+    marginTop: 20,
   },
   rowView: {
     flexDirection: 'row',
