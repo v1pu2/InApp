@@ -1,43 +1,66 @@
 import React from 'react';
-import {Text, View, StyleSheet, ImageBackground} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  ImageBackground,
+  TouchableOpacity,
+} from 'react-native';
 import EventTimeSvg from '../assets/svgs/EventTimeSvg';
 import TicketSvg from '../assets/svgs/TicketSvg';
 import fonts from '../theme/fonts';
+import moment from 'moment';
 
-const EventRecCard = () => {
+const EventRecCard = props => {
+  // console.log('in eventcard', props?.data);
+
+  const event = props?.data;
+
   return (
-    <View style={styles.cardContainer}>
+    <TouchableOpacity style={styles.cardContainer} onPress={props.onCardPress}>
       <ImageBackground
-        source={{uri: 'https://reactjs.org/logo-og.png'}}
+        source={{uri: event?.mainImage}}
         resizeMode="cover"
         style={styles.image}
-        blurRadius={70}
+        blurRadius={2}
         borderRadius={25}>
         <View style={styles.innerView}>
           <View style={styles.topView}>
             <EventTimeSvg />
-            <Text style={styles.txtTime}>Thu, 24 Sep 2020 18:30</Text>
+            <Text style={styles.txtTime}>
+              {moment(event?.dateTime).format('ddd, Do MMM YYYY HH:mm')}
+            </Text>
           </View>
           <View style={styles.middleView}>
-            <Text style={styles.txtTitle}>Camden Town Football Event</Text>
+            <Text style={styles.txtTitle}>{event?.name}</Text>
           </View>
           <View style={styles.bottomView}>
             <View style={styles.rowView}>
               <View style={styles.roundView}>
                 <TicketSvg />
-                <Text style={styles.txtTicket}>9/22 </Text>
+                <Text style={styles.txtTicket}>
+                  {event?.ticketsSold}/{event?.maxTickets}
+                </Text>
               </View>
               <View style={styles.roundView}>
-                <Text style={styles.txtFriend}>+5 friends</Text>
+                {event?.friendsAttending <= 2 ? (
+                  <Text style={styles.txtFriend}>
+                    {event?.friendsAttending} friends
+                  </Text>
+                ) : (
+                  <Text style={styles.txtFriend}>
+                    2 +{event?.friendsAttending - 2} friends
+                  </Text>
+                )}
               </View>
               <View style={styles.lastRoundView}>
-                <Text>1176.98</Text>
+                <Text style={styles.txtPrice}>£{event?.price}</Text>
               </View>
             </View>
           </View>
         </View>
       </ImageBackground>
-    </View>
+    </TouchableOpacity>
   );
 };
 export default EventRecCard;
@@ -57,7 +80,6 @@ const styles = StyleSheet.create({
   middleView: {
     justifyContent: 'center',
     alignItems: 'flex-start',
-    // backgroundColor: 'blue',
     flex: 1,
   },
   roundView: {
@@ -65,7 +87,7 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 1,
     borderRadius: 50,
-    paddingHorizontal: 5,
+    paddingHorizontal: 15,
     paddingVertical: 3,
     justifyContent: 'center',
     flexDirection: 'row',
@@ -73,22 +95,25 @@ const styles = StyleSheet.create({
   },
   lastRoundView: {
     backgroundColor: '#02D9E7',
-    borderColor: 'white',
-    borderWidth: 1,
     borderRadius: 50,
-    paddingHorizontal: 5,
+    paddingHorizontal: 15,
     paddingVertical: 3,
     justifyContent: 'center',
     alignItems: 'center',
   },
   txtTicket: {
-    // fontFamily: 'Montserrat',
     ...fonts.normalM,
     fontSize: 12,
     fontWeight: 'bold',
     lineHeight: 20,
     color: 'white',
-    paddingLeft: 5,
+  },
+  txtPrice: {
+    ...fonts.normalM,
+    fontSize: 12,
+    fontWeight: 'bold',
+    lineHeight: 20,
+    color: 'white',
   },
   txtTitle: {
     fontFamily: 'Montserrat',
@@ -103,7 +128,6 @@ const styles = StyleSheet.create({
   },
   rowView: {justifyContent: 'space-between', flexDirection: 'row'},
   txtFriend: {
-    // fontFamily: 'Montserrat',
     ...fonts.normalM,
     fontSize: 13,
     fontWeight: '500',
@@ -111,7 +135,6 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   txtTime: {
-    // fontFamily: 'Montserrat',
     ...fonts.normalM,
     fontSize: 13,
     fontWeight: '600',

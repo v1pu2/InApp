@@ -2,6 +2,7 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from './HomeScreen';
 import TicketScreen from './TicketScreen';
 import HomeSvg from '../assets/svgs/HomeSvg';
@@ -12,8 +13,31 @@ import PersonScreen from './PersonScreen';
 import SettingScreen from './SettingScreen';
 import SettingSvg from '../assets/svgs/SettingSvg';
 import PersonSvg from '../assets/svgs/PersonSvg';
+import EventDetailScreen from './EventDetailScreen';
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+function HomeStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{title: 'Home Page'}}
+      />
+      <Stack.Screen
+        name="Details"
+        component={EventDetailScreen}
+        options={{title: 'Details Page'}}
+      />
+    </Stack.Navigator>
+  );
+}
 const BottomTabLayout = () => {
   return (
     <NavigationContainer>
@@ -35,7 +59,7 @@ const BottomTabLayout = () => {
         })}>
         <Tab.Screen
           name="Home"
-          component={HomeScreen}
+          component={HomeStack}
           options={{
             tabBarLabel: '',
             tabBarIcon: ({focused}) =>
