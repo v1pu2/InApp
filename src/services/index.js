@@ -6,3 +6,10 @@ export const getEvents = () => {
     url: '/allEvents',
   });
 };
+
+export const getEventDetail = () => {
+  return api.request({
+    method: 'GET',
+    url: '/eventDetails',
+  });
+};

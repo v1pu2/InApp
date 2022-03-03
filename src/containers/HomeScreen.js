@@ -43,7 +43,7 @@ const HomeScreen = ({navigation}) => {
   }, [allEvents]);
   const handlePressEventCard = itemId => {
     console.log('itemid---', itemId);
-    navigation.navigate('Details');
+    navigation.navigate('Details', {eventID: itemId});
   };
   const renderItem = item => {
     return (
