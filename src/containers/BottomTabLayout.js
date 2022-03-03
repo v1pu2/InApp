@@ -22,9 +22,9 @@ const BottomTabLayout = () => {
         screenOptions={({route}) => ({
           headerShown: false,
           tabBarStyle: {
-            height: 50,
+            height: 70,
             // paddingHorizontal: 5,
-            // paddingTop: 0,
+            paddingTop: 15,
             // borderTopWidth: 0,
             backgroundColor: 'white',
             position: 'absolute',
