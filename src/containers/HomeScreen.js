@@ -1,10 +1,52 @@
-import React from 'react';
-import {Text, View, StyleSheet, ScrollView, StatusBar} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  StatusBar,
+  FlatList,
+} from 'react-native';
 import AllEventCard from '../component/AllEventCard';
 import EventRecCard from '../component/EventRecCard';
 import GeneralStatusBarColor from '../component/GeneralStatusBarColor';
+import {getEvents} from '../services';
 import fonts from '../theme/fonts';
+
 const HomeScreen = () => {
+  const [recEvent, setRecEvent] = useState([]);
+  const [allEvents, setAllEvents] = useState([]);
+
+  const callApi = async () => {
+    try {
+      const response = await getEvents();
+
+      if (
+        response?.status === 200 &&
+        response?.data?.allEvents &&
+        response?.data?.allEvents.length > 0
+      ) {
+        setAllEvents(response?.data?.allEvents);
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+  useEffect(() => {
+    callApi();
+  }, []);
+  useEffect(() => {
+    var filterArray = allEvents.filter(data => data?.isRecommended);
+
+    setRecEvent(filterArray);
+  }, [allEvents]);
+  const renderItem = item => {
+    return <EventRecCard data={item?.item} />;
+  };
+  const renderEventItem = item => {
+    console.log('item---', item);
+    return <AllEventCard data={item?.item} />;
+  };
   return (
     <View style={{flex: 1}}>
       <GeneralStatusBarColor
@@ -15,23 +57,28 @@ const HomeScreen = () => {
       <View style={styles.topView}>
         <Text style={styles.txtWelcome}>Welcome</Text>
       </View>
-      <View style={{backgroundColor: '#F9F6F6'}}>
+      <View>
         <Text style={styles.txtRecEvent}>Recommended Events</Text>
-        <View>
-          <ScrollView horizontal contentContainerStyle={styles.root}>
-            <View style={styles.rowView}>
-              <EventRecCard />
-              <EventRecCard />
-              <EventRecCard />
-            </View>
-          </ScrollView>
-          <View style={{backgroundColor: '#E5E5E5'}}>
-            <Text style={styles.txtRecEvent}>All Events</Text>
-            <ScrollView>
-              <AllEventCard />
-            </ScrollView>
-          </View>
-        </View>
+        <FlatList
+          horizontal
+          pagingEnabled={true}
+          showsHorizontalScrollIndicator={false}
+          legacyImplementation={false}
+          data={recEvent}
+          renderItem={item => renderItem(item)}
+          keyExtractor={item => item.id}
+        />
+      </View>
+      <View style={{paddingBottom: 90, flex: 1}}>
+        <Text style={styles.txtRecEvent}>All Events</Text>
+        <FlatList
+          pagingEnabled={true}
+          showsHorizontalScrollIndicator={false}
+          legacyImplementation={false}
+          data={allEvents}
+          renderItem={item => renderEventItem(item)}
+          keyExtractor={item => item.id}
+        />
       </View>
     </View>
   );
@@ -75,13 +122,11 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '500',
     lineHeight: 16,
-    marginTop: 20,
+    marginVertical: 20,
   },
   rowView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     margin: 10,
-
-    // flex: 1,
   },
 });

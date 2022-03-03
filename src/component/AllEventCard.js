@@ -6,7 +6,8 @@ import LikeSvg from '../assets/svgs/LikeSvg';
 import TicketSvg from '../assets/svgs/TicketSvg';
 import fonts from '../theme/fonts';
 
-const AllEventCard = () => {
+const AllEventCard = props => {
+  console.log('in all event--', props?.data);
   return (
     <View style={styles.cardContainer}>
       <ImageBackground
@@ -215,7 +216,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     lineHeight: 17,
     color: '#0FC6C0',
-    paddingLeft:10
+    paddingLeft: 10,
   },
   txtCreatorName: {
     ...fonts.normalM,
