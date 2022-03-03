@@ -1,5 +1,11 @@
 import React from 'react';
-import {Text, View, StyleSheet, ImageBackground} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  ImageBackground,
+  TouchableOpacity,
+} from 'react-native';
 import EventTimeSvg from '../assets/svgs/EventTimeSvg';
 import TicketSvg from '../assets/svgs/TicketSvg';
 import fonts from '../theme/fonts';
@@ -8,14 +14,10 @@ import moment from 'moment';
 const EventRecCard = props => {
   // console.log('in eventcard', props?.data);
 
-  // console.log(moment().toDate());
-
   const event = props?.data;
-  const eDate = event?.bookBy;
-  const date1 = moment(eDate).format('ddd, Do MMM YYYY, HH:mm'); // Thu, 24 Sep 2020 18:30
-  console.log(date1);
+
   return (
-    <View style={styles.cardContainer}>
+    <TouchableOpacity style={styles.cardContainer} onPress={props.onCardPress}>
       <ImageBackground
         source={{uri: event?.mainImage}}
         resizeMode="cover"
@@ -58,7 +60,7 @@ const EventRecCard = props => {
           </View>
         </View>
       </ImageBackground>
-    </View>
+    </TouchableOpacity>
   );
 };
 export default EventRecCard;

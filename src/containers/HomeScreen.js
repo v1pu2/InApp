@@ -40,11 +40,19 @@ const HomeScreen = () => {
 
     setRecEvent(filterArray);
   }, [allEvents]);
+  const handlePressEventCard = itemId => {
+    console.log('itemid---', itemId);
+  };
   const renderItem = item => {
-    return <EventRecCard data={item?.item} />;
+    return (
+      <EventRecCard
+        data={item?.item}
+        onCardPress={() => handlePressEventCard(item?.item?.id)}
+      />
+    );
   };
   const renderEventItem = item => {
-    console.log('item---', item);
+    // console.log('item---', item);
     return <AllEventCard data={item?.item} />;
   };
   return (
@@ -57,7 +65,7 @@ const HomeScreen = () => {
       <View style={styles.topView}>
         <Text style={styles.txtWelcome}>Welcome</Text>
       </View>
-      <View>
+      <View style={{paddingLeft:10}}>
         <Text style={styles.txtRecEvent}>Recommended Events</Text>
         <FlatList
           horizontal

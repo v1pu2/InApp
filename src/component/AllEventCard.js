@@ -7,7 +7,7 @@ import TicketSvg from '../assets/svgs/TicketSvg';
 import fonts from '../theme/fonts';
 import moment from 'moment';
 const AllEventCard = props => {
-  console.log('in all event--', props?.data);
+
   const event = props?.data;
 
   return (
