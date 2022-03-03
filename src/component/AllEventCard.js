@@ -5,9 +5,9 @@ import EventTimeSvg from '../assets/svgs/EventTimeSvg';
 import LikeSvg from '../assets/svgs/LikeSvg';
 import TicketSvg from '../assets/svgs/TicketSvg';
 import fonts from '../theme/fonts';
+import c_styles from '../theme/CommonStyles';
 import moment from 'moment';
 const AllEventCard = props => {
-
   const event = props?.data;
 
   return (
@@ -36,7 +36,7 @@ const AllEventCard = props => {
             <Text style={styles.txtTitle}>{event?.name}</Text>
           </View>
           <View style={styles.bottomView}>
-            <View style={styles.rowView}>
+            <View style={c_styles.rowView}>
               <EventTimeSvg />
               <Text style={styles.txtTime}>
                 {moment(event?.dateTime).format('ddd, Do MMM YYYY HH:mm')}
@@ -51,15 +51,13 @@ const AllEventCard = props => {
         </View>
       </ImageBackground>
       <View style={styles.contentView}>
-        <View style={styles.priceView}>
-          <View style={styles.rowView}>
-            <Text style={styles.txtTotalP}>Total Price:</Text>
-            <Text style={styles.txtPrice}> £{event?.totalPrize}</Text>
+        <View style={c_styles.priceView}>
+          <View style={c_styles.rowView}>
+            <Text style={c_styles.txtTotalP}>Total Price:</Text>
+            <Text style={c_styles.txtPrice}> £{event?.totalPrize}</Text>
           </View>
           <View>
-            <View style={styles.likeView}>
-              <LikeSvg />
-            </View>
+            <LikeSvg />
           </View>
         </View>
         <View style={styles.creatorView}>
@@ -121,7 +119,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
-    
   },
   lastRoundView: {
     backgroundColor: '#02D9E7',
@@ -163,13 +160,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: 15,
   },
-  rowView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   txtFootball: {
-    // fontFamily: 'Montserrat',
     ...fonts.normalM,
     fontSize: 12,
     fontWeight: 'bold',
@@ -177,7 +168,6 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   txtPartner: {
-    // fontFamily: 'Montserrat',
     ...fonts.normalM,
     fontSize: 12,
     fontWeight: 'bold',
@@ -185,32 +175,12 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   txtTime: {
-    // fontFamily: 'Montserrat',
     ...fonts.normalM,
     fontSize: 13,
     fontWeight: '600',
     lineHeight: 16,
     color: 'white',
     paddingLeft: 10,
-  },
-  txtTotalP: {
-    ...fonts.normalM,
-    fontSize: 14,
-    fontWeight: '500',
-    lineHeight: 17,
-    color: '#475464',
-  },
-  txtPrice: {
-    ...fonts.boldM,
-    fontSize: 14,
-    fontWeight: 'bold',
-    lineHeight: 17,
-    color: '#475464',
-  },
-  priceView: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
   creatorView: {
     flex: 1,

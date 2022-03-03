@@ -5,16 +5,19 @@ import {
   StyleSheet,
   ScrollView,
   StatusBar,
-  FlatList,
+  ImageBackground,
 } from 'react-native';
-import {isAsyncDebugging} from 'react-native/Libraries/Utilities/DebugEnvironment';
 
 import GeneralStatusBarColor from '../component/GeneralStatusBarColor';
 import {getEventDetail} from '../services';
+import fonts from '../theme/fonts';
+
+import EventDesc from '../component/EventDesc';
 
 const EventDetailScreen = ({navigation, route}) => {
   const [event, setEvent] = useState({});
   const [allEvents, setAllEvents] = useState([]);
+  const [isLike, setIsLike] = useState(false);
 
   const selectedId = route?.params?.eventID;
   const callApi = async () => {
@@ -43,23 +46,71 @@ const EventDetailScreen = ({navigation, route}) => {
   }, [allEvents, selectedId]);
 
   return (
-    <View style={{flex: 1}}>
-      <GeneralStatusBarColor
-        backgroundColor={'#A462E2'}
+    <ScrollView style={{flex: 1}}>
+      {/* <GeneralStatusBarColor
+        backgroundColor={'transparent'}
         barStyle="light-content"
-      />
-
-      <View style={styles.topView}>
-        <Text style={styles.txtWelcome}>Eventdetail screen</Text>
+      /> */}
+      <ImageBackground
+        source={{
+          uri: event?.mainImage,
+        }}
+        resizeMode="cover"
+        style={styles1.image}
+        blurRadius={2}
+        borderTopRightRadius={12}
+        borderTopLeftRadius={12}>
+        <View
+          style={{
+            justifyContent: 'flex-end',
+            flex: 1,
+          }}>
+          <Text style={styles1.txtWelcome}>{event?.name}</Text>
+        </View>
+      </ImageBackground>
+      <View style={styles1.contentView}>
+        <EventDesc event={event} />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 export default EventDetailScreen;
 
-const styles = StyleSheet.create({
+const styles1 = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 30,
+  },
+  topView: {
+    height: 80,
+    backgroundColor: '#7555CF',
+    borderBottomRightRadius: 30,
+    borderBottomLeftRadius: 30,
+    justifyContent: 'center',
+    marginBottom: 29,
+    shadowColor: '#000000',
+    shadowOffset: {width: 0, height: 4},
+    shadowOpacity: 0.5,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  image: {
+    height: 300,
+    borderTopRightRadius: 12,
+    borderTopLeftRadius: 12,
+  },
+  txtWelcome: {
+    color: 'white',
+    paddingLeft: 20,
+    ...fonts.normalM,
+    fontSize: 22,
+    fontWeight: 'bold',
+    lineHeight: 28,
+    paddingBottom: 30,
+  },
+  contentView: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: 'white',
   },
 });
