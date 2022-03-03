@@ -1,3 +1,4 @@
+import {NavigationContainer} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
   Text,
@@ -13,7 +14,7 @@ import GeneralStatusBarColor from '../component/GeneralStatusBarColor';
 import {getEvents} from '../services';
 import fonts from '../theme/fonts';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   const [recEvent, setRecEvent] = useState([]);
   const [allEvents, setAllEvents] = useState([]);
 
@@ -42,6 +43,7 @@ const HomeScreen = () => {
   }, [allEvents]);
   const handlePressEventCard = itemId => {
     console.log('itemid---', itemId);
+    navigation.navigate('Details');
   };
   const renderItem = item => {
     return (
@@ -65,7 +67,7 @@ const HomeScreen = () => {
       <View style={styles.topView}>
         <Text style={styles.txtWelcome}>Welcome</Text>
       </View>
-      <View style={{paddingLeft:10}}>
+      <View style={{paddingLeft: 10}}>
         <Text style={styles.txtRecEvent}>Recommended Events</Text>
         <FlatList
           horizontal
