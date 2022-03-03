@@ -26,7 +26,7 @@ const EventRecCard = props => {
           <View style={styles.topView}>
             <EventTimeSvg />
             <Text style={styles.txtTime}>
-              {moment(event?.bookBy).format('ddd, Do MMM YYYY HH:mm')}
+              {moment(event?.dateTime).format('ddd, Do MMM YYYY HH:mm')}
             </Text>
           </View>
           <View style={styles.middleView}>
