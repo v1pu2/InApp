@@ -13,3 +13,11 @@ export const getEventDetail = () => {
     url: '/eventDetails',
   });
 };
+
+export const purchase = data => {
+  return api.request({
+    url: '/purchase',
+    method: 'POST',
+    data,
+  });
+};
