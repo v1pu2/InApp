@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import fonts from '../theme/fonts';
 
-const AnimatedBUtton = ({onPress}) => {
+const AnimatedBUtton = ({onPress, isPrice}) => {
   // Initial scale value of 1 means no scale applied initially.
   const animatedButtonScale = new Animated.Value(1);
 
@@ -37,8 +37,17 @@ const AnimatedBUtton = ({onPress}) => {
       onPress={onPress}
       onPressIn={onPressIn}
       onPressOut={onPressOut}>
-      <Animated.View style={[styles.priceBtnView, animatedScaleStyle]}>
-        <Text style={styles.txtPrice}>{'{PRICE}'} - I’M IN!</Text>
+      <Animated.View
+        style={[
+          styles.priceBtnView,
+          animatedScaleStyle,
+          {backgroundColor: isPrice ? '#11D0A2' : '#936EFE'},
+        ]}>
+        {isPrice ? (
+          <Text style={styles.txtPrice}>{'{PRICE}'} - I’M IN!</Text>
+        ) : (
+          <Text style={styles.txtPrice}>Close</Text>
+        )}
       </Animated.View>
     </TouchableWithoutFeedback>
   );
@@ -46,7 +55,7 @@ const AnimatedBUtton = ({onPress}) => {
 export default AnimatedBUtton;
 const styles = StyleSheet.create({
   priceBtnView: {
-    backgroundColor: '#11D0A2',
+    width: '80%',
     marginHorizontal: 30,
     marginVertical: 20,
     paddingVertical: 10,

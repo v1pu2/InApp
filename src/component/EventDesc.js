@@ -17,7 +17,7 @@ import fonts from '../theme/fonts';
 import AnimatedBUtton from './AnimatedButton';
 
 const EventDesc = ({event, onPress, onLocationClick}) => {
-  // console.log(event);
+  console.log(event);
   const [isLike, setIsLike] = useState(false);
   const loc = event?.location;
 
@@ -79,9 +79,10 @@ const EventDesc = ({event, onPress, onLocationClick}) => {
         <View style={styles.aboutView}>
           <Text style={styles.txtAbout}>Contact :</Text>
           <Text style={styles.txtContact}>Send us an email at</Text>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row',backgroundColor:'red',}}>
             <Text
               style={styles.txtEmail}
+              numberOfLines={2}
               onPress={() =>
                 Linking.openURL(
                   'mailto:contact@techalchemy.co?subject=SendMail&body=Description',
@@ -93,7 +94,7 @@ const EventDesc = ({event, onPress, onLocationClick}) => {
           </View>
         </View>
       </View>
-      <AnimatedBUtton onPress={onPress} />
+      <AnimatedBUtton onPress={onPress} isPrice={true}/>
       {/* <TouchableOpacity style={styles.priceBtnView} onPress={onPress}>
         <Text style={styles.txtPrice}>{'{PRICE}'} - I’M IN!</Text>
       </TouchableOpacity> */}
@@ -218,4 +219,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 30,
   },
+ 
 });

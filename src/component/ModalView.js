@@ -9,6 +9,7 @@ import {
 import fonts from '../theme/fonts';
 import CloseSvg from '../assets/svgs/CloseSvg';
 import CorrectSvg from '../assets/svgs/CorrectSvg';
+import AnimatedBUtton from './AnimatedButton';
 
 const screenHeight = Dimensions.get('window').height;
 const ModalView = ({onPressClose, setIsModalVisible, purchaseData}) => {
@@ -49,9 +50,7 @@ const ModalView = ({onPressClose, setIsModalVisible, purchaseData}) => {
         </Text>
       </View>
       <View style={styles.bottomView}>
-        <TouchableOpacity style={styles.closeBtnView} onPress={onPressClose}>
-          <Text style={styles.txtClose}>Close</Text>
-        </TouchableOpacity>
+        <AnimatedBUtton onPress={onPressClose} isPrice={false} />
       </View>
     </View>
     // </View>
@@ -145,22 +144,7 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     fontWeight: '500',
   },
-  txtClose: {
-    color: 'white',
-    ...fonts.normalM,
-    fontSize: 16,
-    lineHeight: 20,
-    fontWeight: '600',
-    textTransform: 'uppercase',
-  },
-  closeBtnView: {
-    backgroundColor: '#936EFE',
-    width: '80%',
-    paddingVertical: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 30,
-  },
+
   grayView: {
     height: 1,
     backgroundColor: '#E4E4E4',
