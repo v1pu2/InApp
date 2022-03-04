@@ -8,8 +8,8 @@ import TicketDetailSvg from '../assets/svgs/TicketDetailSvg';
 import c_styles from '../theme/CommonStyles';
 import fonts from '../theme/fonts';
 
-const EventDesc = ({event}) => {
-  console.log(event);
+const EventDesc = ({event, onPress, onLocationClick}) => {
+  // console.log(event);
   const [isLike, setIsLike] = useState(false);
   return (
     <View style={{paddingBottom: 70}}>
@@ -49,9 +49,7 @@ const EventDesc = ({event}) => {
             </View>
           </View>
           <View style={styles.takeView}>
-            <Text
-              style={styles.txtTake}
-              onPress={() => console.log('location click')}>
+            <Text style={styles.txtTake} onPress={onLocationClick}>
               Take me there
             </Text>
           </View>
@@ -74,18 +72,9 @@ const EventDesc = ({event}) => {
           </View>
         </View>
       </View>
-      <View
-        style={{
-          backgroundColor: '#11D0A2',
-          marginHorizontal: 30,
-          marginVertical: 20,
-          paddingVertical: 10,
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: 30,
-        }}>
+      <TouchableOpacity style={styles.priceBtnView} onPress={onPress}>
         <Text style={styles.txtPrice}>{'{PRICE}'} - I’M IN!</Text>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -199,4 +188,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   grayView: {height: 1, backgroundColor: '#E5E4EB', marginTop: 10},
+  priceBtnView: {
+    backgroundColor: '#11D0A2',
+    marginHorizontal: 30,
+    marginVertical: 20,
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30,
+  },
 });
