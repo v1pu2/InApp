@@ -1,16 +1,35 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, ScrollView, Linking} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  Linking,
+  TouchableOpacity,
+} from 'react-native';
+
 import FollowSvg from '../assets/svgs/FollowSvg';
 import LikeSvg from '../assets/svgs/LikeSvg';
 import LocationSvg from '../assets/svgs/locationSvg';
 import TicketDetailSvg from '../assets/svgs/TicketDetailSvg';
 import c_styles from '../theme/CommonStyles';
 import fonts from '../theme/fonts';
+import AnimatedBUtton from './AnimatedButton';
 
-const EventDesc = ({event}) => {
+const EventDesc = ({event, onPress, onLocationClick}) => {
   console.log(event);
   const [isLike, setIsLike] = useState(false);
+  const loc = event?.location;
+
+  const locStr = loc?.split(',');
+
+  const locView = () => {
+    var temp = '';
+    locStr.map((item, index) => {
+      temp = temp + item + ',\n';
+    });
+    return <Text style={styles.txtLocation}>{temp}</Text>;
+  };
   return (
     <View style={{paddingBottom: 70}}>
       <View style={c_styles.priceView}>
@@ -45,24 +64,25 @@ const EventDesc = ({event}) => {
           <View style={styles.locationView}>
             <View style={styles.iconAddView}>
               <LocationSvg />
-              <Text style={styles.txtLocation}>{event?.location}</Text>
+              {locStr?.length > 0 && locView()}
             </View>
           </View>
+
           <View style={styles.takeView}>
-            <Text
-              style={styles.txtTake}
-              onPress={() => console.log('location click')}>
+            <Text style={styles.txtTake} onPress={onLocationClick}>
               Take me there
             </Text>
           </View>
         </View>
         <View style={styles.grayView} />
+        {/* {locView()} */}
         <View style={styles.aboutView}>
           <Text style={styles.txtAbout}>Contact :</Text>
           <Text style={styles.txtContact}>Send us an email at</Text>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row',backgroundColor:'red',}}>
             <Text
               style={styles.txtEmail}
+              numberOfLines={2}
               onPress={() =>
                 Linking.openURL(
                   'mailto:contact@techalchemy.co?subject=SendMail&body=Description',
@@ -74,18 +94,10 @@ const EventDesc = ({event}) => {
           </View>
         </View>
       </View>
-      <View
-        style={{
-          backgroundColor: '#11D0A2',
-          marginHorizontal: 30,
-          marginVertical: 20,
-          paddingVertical: 10,
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: 30,
-        }}>
+      <AnimatedBUtton onPress={onPress} isPrice={true}/>
+      {/* <TouchableOpacity style={styles.priceBtnView} onPress={onPress}>
         <Text style={styles.txtPrice}>{'{PRICE}'} - I’M IN!</Text>
-      </View>
+      </TouchableOpacity> */}
     </View>
   );
 };
@@ -147,7 +159,7 @@ const styles = StyleSheet.create({
   iconAddView: {flexDirection: 'row', paddingLeft: 5},
   locationView: {
     justifyContent: 'center',
-    flex: 0.7,
+    flex: 1,
   },
   txtLocation: {
     color: '#475464',
@@ -159,17 +171,16 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   takeView: {
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     borderRadius: 30,
     borderColor: '#6658D3',
     borderWidth: 1,
     alignItems: 'center',
-    padding: 10,
-    flex: 0.3,
+    height: 40,
   },
   txtTake: {
     color: '#6658D3',
-    paddingLeft: 10,
+    paddingHorizontal: 20,
     ...fonts.normalM,
     fontSize: 13,
     lineHeight: 16,
@@ -199,4 +210,14 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   grayView: {height: 1, backgroundColor: '#E5E4EB', marginTop: 10},
+  priceBtnView: {
+    backgroundColor: '#11D0A2',
+    marginHorizontal: 30,
+    marginVertical: 20,
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 30,
+  },
+ 
 });

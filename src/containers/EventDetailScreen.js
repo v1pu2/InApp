@@ -6,18 +6,25 @@ import {
   ScrollView,
   StatusBar,
   ImageBackground,
+  Platform,
+  Linking,
+  Modal,
+  Button,
 } from 'react-native';
-
+import axios from 'axios';
 import GeneralStatusBarColor from '../component/GeneralStatusBarColor';
-import {getEventDetail} from '../services';
+import {getEventDetail, purchase} from '../services';
 import fonts from '../theme/fonts';
 
 import EventDesc from '../component/EventDesc';
+import ModalView from '../component/ModalView';
 
 const EventDetailScreen = ({navigation, route}) => {
   const [event, setEvent] = useState({});
   const [allEvents, setAllEvents] = useState([]);
+  const [purchaseData, setPurchaseData] = useState({});
   const [isLike, setIsLike] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const selectedId = route?.params?.eventID;
   const callApi = async () => {
@@ -44,7 +51,52 @@ const EventDetailScreen = ({navigation, route}) => {
     console.log(selectedEvent);
     setEvent(selectedEvent);
   }, [allEvents, selectedId]);
+  const callPurchaseApi = async data => {
+    const request = {
+      purchase: {
+        dateTime: data?.bookBy,
+        purchaseAmount: data?.totalPrize,
+        paymentMethodType: 'visa',
+        eventId: data?.id,
+      },
+    };
+    // console.log('request--', request);
+    try {
+      const response = await purchase(request);
+      console.log('response?.data--', response?.data);
+      if (response?.status === 200 && response?.data) {
+        setIsModalVisible(true);
+        setPurchaseData(response?.data?.purchase);
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+  const onPriceClick = data => {
+    callPurchaseApi(data);
+  };
+  // click and open map application
+  const onLocationClick = location => {
+    const link = `http://api.positionstack.com/v1/forward?access_key=81f2cbab5535951fe844607ead12aad2&query=${location}`;
 
+    axios.get(link).then(res => {
+      const latitude = res?.data?.data[0]?.latitude;
+      const longitude = res?.data?.data[0]?.longitude;
+      const label = location;
+
+      const url = Platform.select({
+        ios: 'maps:' + latitude + ',' + longitude + '?q=' + label,
+        android: 'geo:' + latitude + ',' + longitude + '?q=' + label,
+      });
+      console.log(url);
+      Linking.openURL(url);
+    });
+  };
+  // close the modal view and navigate to home
+  const onCloseClick = () => {
+    setIsModalVisible(false);
+    navigation.navigate('Home');
+  };
   return (
     <ScrollView style={{flex: 1}}>
       {/* <GeneralStatusBarColor
@@ -69,7 +121,29 @@ const EventDetailScreen = ({navigation, route}) => {
         </View>
       </ImageBackground>
       <View style={styles1.contentView}>
-        <EventDesc event={event} />
+        <EventDesc
+          event={event}
+          onPress={() => onPriceClick(event)}
+          onLocationClick={() => onLocationClick(event?.location)}
+        />
+      </View>
+      <View>
+        {isModalVisible && (
+          <Modal
+            animationType={'fade'}
+            transparent={true}
+            visible={isModalVisible}
+            onRequestClose={() => {
+              console.log('Modal has been closed.');
+            }}>
+            {/*All views of Modal*/}
+            <ModalView
+              onPressClose={() => onCloseClick()}
+              setIsModalVisible={setIsModalVisible}
+              purchaseData={purchaseData}
+            />
+          </Modal>
+        )}
       </View>
     </ScrollView>
   );
