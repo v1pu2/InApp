@@ -26,7 +26,12 @@ const ModalView = ({onPressClose, setIsModalVisible, purchaseData}) => {
         <CorrectSvg />
       </View>
       <View style={styles.thankView}>
-        <Text style={styles.txtThank}>Thank you!</Text>
+        <Text
+          style={styles.txtThank}
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}>
+          Thank you!
+        </Text>
         <Text style={styles.txtPayment}>
           Your payment was made successfully!
         </Text>
@@ -63,7 +68,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 25,
     borderWidth: 1,
     borderColor: '#fff',
-    marginTop: '35%',
+    marginTop: 200,
     padding: 20,
     shadowColor: '#000000',
     shadowOffset: {width: 0, height: 7},
