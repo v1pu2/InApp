@@ -14,6 +14,7 @@ import LocationSvg from '../assets/svgs/locationSvg';
 import TicketDetailSvg from '../assets/svgs/TicketDetailSvg';
 import c_styles from '../theme/CommonStyles';
 import fonts from '../theme/fonts';
+import AnimatedBUtton from './AnimatedButton';
 
 const EventDesc = ({event, onPress, onLocationClick}) => {
   // console.log(event);
@@ -92,9 +93,10 @@ const EventDesc = ({event, onPress, onLocationClick}) => {
           </View>
         </View>
       </View>
-      <TouchableOpacity style={styles.priceBtnView} onPress={onPress}>
+      <AnimatedBUtton onPress={onPress} />
+      {/* <TouchableOpacity style={styles.priceBtnView} onPress={onPress}>
         <Text style={styles.txtPrice}>{'{PRICE}'} - I’M IN!</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
