@@ -1,5 +1,11 @@
 import React from 'react';
-import {Text, View, StyleSheet, ImageBackground} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  ImageBackground,
+  TouchableOpacity,
+} from 'react-native';
 import CreatorSvg from '../assets/svgs/CreatorSvg';
 import EventTimeSvg from '../assets/svgs/EventTimeSvg';
 import LikeSvg from '../assets/svgs/LikeSvg';
@@ -7,11 +13,12 @@ import TicketSvg from '../assets/svgs/TicketSvg';
 import fonts from '../theme/fonts';
 import c_styles from '../theme/CommonStyles';
 import moment from 'moment';
+
 const AllEventCard = props => {
   const event = props?.data;
 
   return (
-    <View style={styles.cardContainer}>
+    <TouchableOpacity style={styles.cardContainer} onPress={props.onCardPress}>
       <ImageBackground
         source={{
           uri: event?.mainImage,
@@ -66,7 +73,7 @@ const AllEventCard = props => {
           <Text style={styles.txtCreatorName}> Steave Jobs</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 export default AllEventCard;

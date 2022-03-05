@@ -23,14 +23,13 @@ const EventDetailScreen = ({navigation, route}) => {
   const [event, setEvent] = useState({});
   const [allEvents, setAllEvents] = useState([]);
   const [purchaseData, setPurchaseData] = useState({});
-  const [isLike, setIsLike] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const selectedId = route?.params?.eventID;
   const callApi = async () => {
     try {
       const response = await getEventDetail();
-      //   console.log('response--', JSON.stringify(response?.data));
+      // console.log('response--', JSON.stringify(response?.data));
       if (
         response?.status === 200 &&
         response?.data?.eventDetails &&
@@ -39,7 +38,7 @@ const EventDetailScreen = ({navigation, route}) => {
         setAllEvents(response?.data?.eventDetails);
       }
     } catch (error) {
-      console.log('error', error);
+      console.log('error  in detail res', error);
     }
   };
   useEffect(() => {
@@ -48,9 +47,9 @@ const EventDetailScreen = ({navigation, route}) => {
 
   useEffect(() => {
     var selectedEvent = allEvents.find(data => data?.id === selectedId);
-    console.log(selectedEvent);
     setEvent(selectedEvent);
   }, [allEvents, selectedId]);
+
   const callPurchaseApi = async data => {
     const request = {
       purchase: {
@@ -60,16 +59,15 @@ const EventDetailScreen = ({navigation, route}) => {
         eventId: data?.id,
       },
     };
-    // console.log('request--', request);
+
     try {
       const response = await purchase(request);
-      console.log('response?.data--', response?.data);
       if (response?.status === 200 && response?.data) {
         setIsModalVisible(true);
         setPurchaseData(response?.data?.purchase);
       }
     } catch (error) {
-      console.log('error', error);
+      console.log('error -----', error);
     }
   };
   const onPriceClick = data => {
@@ -79,18 +77,22 @@ const EventDetailScreen = ({navigation, route}) => {
   const onLocationClick = location => {
     const link = `http://api.positionstack.com/v1/forward?access_key=81f2cbab5535951fe844607ead12aad2&query=${location}`;
 
-    axios.get(link).then(res => {
-      const latitude = res?.data?.data[0]?.latitude;
-      const longitude = res?.data?.data[0]?.longitude;
-      const label = location;
+    try {
+      axios.get(link).then(res => {
+        const latitude = res?.data?.data[0]?.latitude;
+        const longitude = res?.data?.data[0]?.longitude;
+        const label = location;
 
-      const url = Platform.select({
-        ios: 'maps:' + latitude + ',' + longitude + '?q=' + label,
-        android: 'geo:' + latitude + ',' + longitude + '?q=' + label,
+        const url = Platform.select({
+          ios: 'maps:' + latitude + ',' + longitude + '?q=' + label,
+          android: 'geo:' + latitude + ',' + longitude + '?q=' + label,
+        });
+        console.log(url);
+        Linking.openURL(url);
       });
-      console.log(url);
-      Linking.openURL(url);
-    });
+    } catch (error) {
+      console.log('error---', error);
+    }
   };
   // close the modal view and navigate to home
   const onCloseClick = () => {
