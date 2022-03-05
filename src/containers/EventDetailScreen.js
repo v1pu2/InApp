@@ -3,43 +3,66 @@ import {
   Text,
   View,
   StyleSheet,
-  ScrollView,
-  StatusBar,
-  ImageBackground,
   Platform,
   Linking,
   Modal,
-  Button,
   SafeAreaView,
-  Image,
   Animated,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 import axios from 'axios';
-import GeneralStatusBarColor from '../component/GeneralStatusBarColor';
-import {getEventDetail, purchase} from '../services';
+
+import {getCheckoutDetails, getEventDetail, purchase} from '../services';
 import fonts from '../theme/fonts';
 
 import EventDesc from '../component/EventDesc';
 import ModalView from '../component/ModalView';
+import BackSvg from '../assets/svgs/BackSvg';
 
 const HEADER_WIDTH = Dimensions.get('window').width;
-const HEADER_MAX_HEIGHT = 340;
-const HEADER_MIN_HEIGHT = 84;
+const HEADER_MAX_HEIGHT = 340; //  set Image height
+const HEADER_MIN_HEIGHT = 84; // set header when scroll up
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
-const DATA = Array.from({length: 30});
 
-const imageUri =
-  'https://i.pinimg.com/originals/a9/88/a4/a988a47e605cacc02b0bb41c85270de3.jpg';
-
+const START_ANIMATION_SCROLL_HEIGHT = 0;
+const END_ANIMATION_SCROLL_HEIGHT = 150;
 const EventDetailScreen = ({navigation, route}) => {
   const [event, setEvent] = useState({});
   const [allEvents, setAllEvents] = useState([]);
   const [purchaseData, setPurchaseData] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const [titleWidth, setTitleWidth] = useState(0);
   const scrollY = useRef(new Animated.Value(0)).current;
+  let myList = useRef();
 
+  const animatedFontSize = scrollY.interpolate({
+    inputRange: [START_ANIMATION_SCROLL_HEIGHT, END_ANIMATION_SCROLL_HEIGHT],
+    outputRange: [
+      Platform?.OS === 'ios' ? 20 : 22,
+      Platform?.OS === 'ios' ? 15 : 17,
+    ],
+    extrapolate: 'clamp',
+  });
+
+  const animatedTranslateX = scrollY.interpolate({
+    inputRange: [START_ANIMATION_SCROLL_HEIGHT, END_ANIMATION_SCROLL_HEIGHT],
+    outputRange: [
+      -((HEADER_WIDTH - 30 - titleWidth) / 2), // set title on image horizontally
+      Platform?.OS === 'ios' ? 70 : 100, // set title in header horizontally
+    ],
+    extrapolate: 'clamp',
+  });
+
+  const animatedTranslateY = scrollY.interpolate({
+    inputRange: [START_ANIMATION_SCROLL_HEIGHT, END_ANIMATION_SCROLL_HEIGHT],
+    outputRange: [
+      Platform?.OS === 'ios' ? 210 : 230, // set title on image vertically
+      Platform?.OS === 'ios' ? -18 : -18, // set title in header vertically
+    ],
+    extrapolate: 'clamp',
+  });
   const headerTranslateY = scrollY.interpolate({
     inputRange: [0, HEADER_SCROLL_DISTANCE],
     outputRange: [0, -HEADER_SCROLL_DISTANCE],
@@ -106,6 +129,7 @@ const EventDetailScreen = ({navigation, route}) => {
     try {
       const response = await purchase(request);
       if (response?.status === 200 && response?.data) {
+        myList.current.scrollTo({animated: false, x: 200, y: 0});
         setIsModalVisible(true);
         setPurchaseData(response?.data?.purchase);
       }
@@ -130,20 +154,35 @@ const EventDetailScreen = ({navigation, route}) => {
           ios: 'maps:' + latitude + ',' + longitude + '?q=' + label,
           android: 'geo:' + latitude + ',' + longitude + '?q=' + label,
         });
-        console.log(url);
         Linking.openURL(url);
       });
     } catch (error) {
       console.log('error---', error);
     }
   };
+  const callCheckoutApi = async () => {
+    try {
+      const response = await getCheckoutDetails();
+      if (
+        response?.status === 200 &&
+        response?.data?.checkout &&
+        response?.data?.checkout.length > 0
+      ) {
+        setIsModalVisible(false);
+        navigation.navigate('Home');
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
   // close the modal view and navigate to home
   const onCloseClick = () => {
-    setIsModalVisible(false);
-    navigation.navigate('Home');
+    callCheckoutApi();
   };
+
   return (
-    <SafeAreaView style={styles.saveArea}>
+    <SafeAreaView style={styles.safeArea}>
+      {/* set backgroundColor image */}
       <Animated.View
         style={[styles.header, {transform: [{translateY: headerTranslateY}]}]}>
         <Animated.Image
@@ -155,32 +194,63 @@ const EventDetailScreen = ({navigation, route}) => {
             },
           ]}
           source={{
-            uri: imageUri,
+            uri: event?.mainImage,
           }}
           resizeMode={'cover'}
         />
       </Animated.View>
+      {/* set header view */}
+      <Animated.View style={styles.backView}>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <BackSvg />
+        </TouchableOpacity>
+      </Animated.View>
+      {/* set title on image and header */}
       <Animated.View
         style={[
-          styles.topBar,
           {
             transform: [{scale: titleScale}, {translateY: titleTranslateY}],
           },
         ]}>
-        <Text style={styles.title}>Management</Text>
+        <Animated.Text
+          onLayout={e => {
+            setTitleWidth(e.nativeEvent.layout.width);
+          }}
+          style={[
+            styles.txtName,
+            {
+              fontSize: animatedFontSize,
+              transform: [
+                {
+                  translateY: animatedTranslateY,
+                },
+                {
+                  translateX: animatedTranslateX,
+                },
+              ],
+            },
+          ]}>
+          {event?.name}
+        </Animated.Text>
       </Animated.View>
+
       <Animated.ScrollView
         contentContainerStyle={styles.scrollContentView}
-        scrollEventThrottle={16}
+        scrollEventThrottle={1}
         onScroll={Animated.event(
           [{nativeEvent: {contentOffset: {y: scrollY}}}],
-          {useNativeDriver: true},
-        )}>
+          {
+            useNativeDriver: false, // false used to set animated font size
+          },
+        )}
+        scrollToOverflowEnabled={true}
+        ref={myList}>
         <EventDesc
           event={event}
           onPress={() => onPriceClick(event)}
           onLocationClick={() => onLocationClick(event?.location)}
         />
+        {/* open modal view  */}
         <View>
           {isModalVisible && (
             <Modal
@@ -193,94 +263,34 @@ const EventDetailScreen = ({navigation, route}) => {
               {/*All views of Modal*/}
               <ModalView
                 onPressClose={() => onCloseClick()}
+                // setIsModalVisible={setIsModalVisible}
                 setIsModalVisible={setIsModalVisible}
                 purchaseData={purchaseData}
               />
             </Modal>
           )}
         </View>
-        {/* {DATA.map(renderListItem)} */}
       </Animated.ScrollView>
     </SafeAreaView>
-    // <ScrollView style={{flex: 1}}>
-    //   {/* <GeneralStatusBarColor
-    //     backgroundColor={'transparent'}
-    //     barStyle="light-content"
-    //   /> */}
-    //   <ImageBackground
-    //     source={{
-    //       uri: event?.mainImage,
-    //     }}
-    //     resizeMode="cover"
-    //     style={styles1.image}
-    //     blurRadius={2}
-    //     borderTopRightRadius={12}
-    //     borderTopLeftRadius={12}>
-    //     <View
-    //       style={{
-    //         justifyContent: 'flex-end',
-    //         flex: 1,
-    //       }}>
-    //       <Text style={styles1.txtWelcome}>{event?.name}</Text>
-    //     </View>
-    //   </ImageBackground>
-    //   <View style={styles1.contentView}>
-    // <EventDesc
-    //   event={event}
-    //   onPress={() => onPriceClick(event)}
-    //   onLocationClick={() => onLocationClick(event?.location)}
-    // />
-    //   </View>
-    // <View>
-    //   {isModalVisible && (
-    //     <Modal
-    //       animationType={'fade'}
-    //       transparent={true}
-    //       visible={isModalVisible}
-    //       onRequestClose={() => {
-    //         console.log('Modal has been closed.');
-    //       }}>
-    //       {/*All views of Modal*/}
-    //       <ModalView
-    //         onPressClose={() => onCloseClick()}
-    //         setIsModalVisible={setIsModalVisible}
-    //         purchaseData={purchaseData}
-    //       />
-    //     </Modal>
-    //   )}
-    // </View>
-    // </ScrollView>
   );
 };
 export default EventDetailScreen;
 
 const styles = StyleSheet.create({
-  saveArea: {
+  safeArea: {
     flex: 1,
     backgroundColor: '#eff3fb',
   },
   scrollContentView: {
-    paddingTop:
-      Platform.OS === 'ios' ? HEADER_MAX_HEIGHT - 20 : HEADER_MAX_HEIGHT + 20,
+    paddingTop: HEADER_MAX_HEIGHT - 80,
     padding: 20,
   },
-  card: {
+  backView: {
+    backgroundColor: 'transparent',
+    marginTop: Platform.OS === 'ios' ? 10 : 50,
+    marginLeft: 20,
     flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: '#402583',
-    backgroundColor: '#ffffff',
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 1,
-    borderRadius: 10,
-    marginHorizontal: 12,
-    marginTop: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
   },
   header: {
     position: 'absolute',
@@ -300,62 +310,11 @@ const styles = StyleSheet.create({
     height: HEADER_MAX_HEIGHT,
     resizeMode: 'cover',
   },
-  topBar: {
-    justifyContent: 'flex-end',
-    marginTop: 260,
-    height: 50,
-    position: 'absolute',
-    left: 20,
-    right: 0,
-  },
-  title: {
+  txtName: {
     color: 'white',
-    fontSize: 20,
+    ...fonts.normalM,
+    fontSize: Platform.OS === 'ios' ? 20 : 22,
+    fontWeight: '700',
+    lineHeight: 28,
   },
-  avatar: {
-    height: 54,
-    width: 54,
-    resizeMode: 'contain',
-    borderRadius: 54 / 2,
-  },
-  fullNameText: {
-    fontSize: 16,
-    marginLeft: 24,
-  },
-  // container: {
-  //   flex: 1,
-  //   marginTop: 30,
-  // },
-  // topView: {
-  //   height: 80,
-  //   backgroundColor: '#7555CF',
-  //   borderBottomRightRadius: 30,
-  //   borderBottomLeftRadius: 30,
-  //   justifyContent: 'center',
-  //   marginBottom: 29,
-  //   shadowColor: '#000000',
-  //   shadowOffset: {width: 0, height: 4},
-  //   shadowOpacity: 0.5,
-  //   shadowRadius: 8,
-  //   elevation: 3,
-  // },
-  // image: {
-  //   height: 300,
-  //   borderTopRightRadius: 12,
-  //   borderTopLeftRadius: 12,
-  // },
-  // txtWelcome: {
-  //   color: 'white',
-  //   paddingLeft: 20,
-  //   ...fonts.normalM,
-  //   fontSize: 22,
-  //   fontWeight: 'bold',
-  //   lineHeight: 28,
-  //   paddingBottom: 30,
-  // },
-  // contentView: {
-  //   flex: 1,
-  //   padding: 20,
-  //   backgroundColor: 'white',
-  // },
 });

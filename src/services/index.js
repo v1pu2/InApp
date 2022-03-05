@@ -21,3 +21,9 @@ export const purchase = data => {
     data,
   });
 };
+export const getCheckoutDetails = () => {
+  return api.request({
+    method: 'GET',
+    url: '/checkout',
+  });
+};
