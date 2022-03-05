@@ -3,34 +3,27 @@ import {
   Text,
   View,
   StyleSheet,
-  ScrollView,
-  StatusBar,
-  ImageBackground,
   Platform,
   Linking,
   Modal,
-  Button,
   SafeAreaView,
-  Image,
   Animated,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 import axios from 'axios';
-import GeneralStatusBarColor from '../component/GeneralStatusBarColor';
+
 import {getCheckoutDetails, getEventDetail, purchase} from '../services';
 import fonts from '../theme/fonts';
 
 import EventDesc from '../component/EventDesc';
 import ModalView from '../component/ModalView';
+import BackSvg from '../assets/svgs/BackSvg';
 
 const HEADER_WIDTH = Dimensions.get('window').width;
 const HEADER_MAX_HEIGHT = 340;
 const HEADER_MIN_HEIGHT = 84;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
-const DATA = Array.from({length: 30});
-
-const imageUri =
-  'https://i.pinimg.com/originals/a9/88/a4/a988a47e605cacc02b0bb41c85270de3.jpg';
 
 const EventDetailScreen = ({navigation, route}) => {
   const [event, setEvent] = useState({});
@@ -169,10 +162,15 @@ const EventDetailScreen = ({navigation, route}) => {
             },
           ]}
           source={{
-            uri: imageUri,
+            uri: event?.mainImage,
           }}
           resizeMode={'cover'}
         />
+      </Animated.View>
+      <Animated.View style={[styles.backView]}>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <BackSvg />
+        </TouchableOpacity>
       </Animated.View>
       <Animated.View
         style={[
@@ -181,7 +179,7 @@ const EventDetailScreen = ({navigation, route}) => {
             transform: [{scale: titleScale}, {translateY: titleTranslateY}],
           },
         ]}>
-        <Text style={styles.title}>Management</Text>
+        <Text style={styles.txtName}>{event?.name}</Text>
       </Animated.View>
       <Animated.ScrollView
         contentContainerStyle={styles.scrollContentView}
@@ -213,57 +211,8 @@ const EventDetailScreen = ({navigation, route}) => {
             </Modal>
           )}
         </View>
-        {/* {DATA.map(renderListItem)} */}
       </Animated.ScrollView>
     </SafeAreaView>
-    // <ScrollView style={{flex: 1}}>
-    //   {/* <GeneralStatusBarColor
-    //     backgroundColor={'transparent'}
-    //     barStyle="light-content"
-    //   /> */}
-    //   <ImageBackground
-    //     source={{
-    //       uri: event?.mainImage,
-    //     }}
-    //     resizeMode="cover"
-    //     style={styles1.image}
-    //     blurRadius={2}
-    //     borderTopRightRadius={12}
-    //     borderTopLeftRadius={12}>
-    //     <View
-    //       style={{
-    //         justifyContent: 'flex-end',
-    //         flex: 1,
-    //       }}>
-    //       <Text style={styles1.txtWelcome}>{event?.name}</Text>
-    //     </View>
-    //   </ImageBackground>
-    //   <View style={styles1.contentView}>
-    // <EventDesc
-    //   event={event}
-    //   onPress={() => onPriceClick(event)}
-    //   onLocationClick={() => onLocationClick(event?.location)}
-    // />
-    //   </View>
-    // <View>
-    //   {isModalVisible && (
-    //     <Modal
-    //       animationType={'fade'}
-    //       transparent={true}
-    //       visible={isModalVisible}
-    //       onRequestClose={() => {
-    //         console.log('Modal has been closed.');
-    //       }}>
-    //       {/*All views of Modal*/}
-    //       <ModalView
-    //         onPressClose={() => onCloseClick()}
-    //         setIsModalVisible={setIsModalVisible}
-    //         purchaseData={purchaseData}
-    //       />
-    //     </Modal>
-    //   )}
-    // </View>
-    // </ScrollView>
   );
 };
 export default EventDetailScreen;
@@ -275,8 +224,13 @@ const styles = StyleSheet.create({
   },
   scrollContentView: {
     paddingTop:
-      Platform.OS === 'ios' ? HEADER_MAX_HEIGHT - 20 : HEADER_MAX_HEIGHT + 20,
+      Platform.OS === 'ios' ? HEADER_MAX_HEIGHT - 60 : HEADER_MAX_HEIGHT - 30,
     padding: 20,
+  },
+  backView: {
+    backgroundColor: 'transparent',
+    marginTop: Platform.OS === 'ios' ? 20 : 40,
+    marginLeft: 20,
   },
   card: {
     flexDirection: 'row',
@@ -322,9 +276,12 @@ const styles = StyleSheet.create({
     left: 20,
     right: 0,
   },
-  title: {
+  txtName: {
     color: 'white',
-    fontSize: 20,
+    ...fonts.normalM,
+    fontSize: 22,
+    fontWeight: 'bold',
+    lineHeight: 28,
   },
   avatar: {
     height: 54,
@@ -359,13 +316,13 @@ const styles = StyleSheet.create({
   //   borderTopLeftRadius: 12,
   // },
   // txtWelcome: {
-  //   color: 'white',
-  //   paddingLeft: 20,
-  //   ...fonts.normalM,
-  //   fontSize: 22,
-  //   fontWeight: 'bold',
-  //   lineHeight: 28,
-  //   paddingBottom: 30,
+  // color: 'white',
+  // paddingLeft: 20,
+  // ...fonts.normalM,
+  // fontSize: 22,
+  // fontWeight: 'bold',
+  // lineHeight: 28,
+  // paddingBottom: 30,
   // },
   // contentView: {
   //   flex: 1,
