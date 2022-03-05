@@ -1,12 +1,5 @@
 import React, {useState} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  ScrollView,
-  Linking,
-  TouchableOpacity,
-} from 'react-native';
+import {Text, View, StyleSheet, Linking, TouchableOpacity} from 'react-native';
 
 import FollowSvg from '../assets/svgs/FollowSvg';
 import LikeSvg from '../assets/svgs/LikeSvg';
@@ -17,7 +10,6 @@ import fonts from '../theme/fonts';
 import AnimatedBUtton from './AnimatedButton';
 
 const EventDesc = ({event, onPress, onLocationClick}) => {
-  console.log(event);
   const [isLike, setIsLike] = useState(false);
   const loc = event?.location;
 
@@ -209,13 +201,4 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   grayView: {height: 1, backgroundColor: '#E5E4EB', marginTop: 10},
-  priceBtnView: {
-    backgroundColor: '#11D0A2',
-    marginHorizontal: 30,
-    marginVertical: 20,
-    paddingVertical: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 30,
-  },
 });

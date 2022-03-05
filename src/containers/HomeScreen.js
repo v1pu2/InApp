@@ -6,7 +6,6 @@ import {
   FlatList,
   Dimensions,
   Alert,
-  ActivityIndicator,
 } from 'react-native';
 import AllEventCard from '../component/AllEventCard';
 import EventRecCard from '../component/EventRecCard';
@@ -15,6 +14,7 @@ import {getEvents} from '../services';
 import fonts from '../theme/fonts';
 import colors from '../theme/colors';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
+import LoaderView from '../component/LoaderView';
 
 export const SLIDER_WIDTH = Dimensions.get('window').width + 30;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 1);
@@ -91,11 +91,7 @@ const HomeScreen = ({navigation}) => {
       <View style={styles.topView}>
         <Text style={styles.txtWelcome}>Welcome</Text>
       </View>
-      {isLoading && (
-        <View style={styles.loaderView}>
-          <ActivityIndicator size="large" color="#0000ff" />
-        </View>
-      )}
+      {isLoading && <LoaderView />}
       <View>
         {!isLoading && (
           <Text style={styles.txtRecEvent}>Recommended Events</Text>
@@ -173,10 +169,6 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: '600',
     lineHeight: 27,
-  },
-  root: {
-    flex: 1,
-    marginBottom: 30,
   },
   txtRecEvent: {
     color: '#565066',

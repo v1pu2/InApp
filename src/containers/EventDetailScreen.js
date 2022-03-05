@@ -1,6 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {
-  Text,
   View,
   StyleSheet,
   Platform,
@@ -10,6 +9,7 @@ import {
   Animated,
   Dimensions,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import axios from 'axios';
 
@@ -19,6 +19,7 @@ import fonts from '../theme/fonts';
 import EventDesc from '../component/EventDesc';
 import ModalView from '../component/ModalView';
 import BackSvg from '../assets/svgs/BackSvg';
+import LoaderView from '../component/LoaderView';
 
 const HEADER_WIDTH = Dimensions.get('window').width;
 const HEADER_MAX_HEIGHT = 340; //  set Image height
@@ -27,16 +28,18 @@ const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 
 const START_ANIMATION_SCROLL_HEIGHT = 0;
 const END_ANIMATION_SCROLL_HEIGHT = 150;
+
 const EventDetailScreen = ({navigation, route}) => {
   const [event, setEvent] = useState({});
   const [allEvents, setAllEvents] = useState([]);
   const [purchaseData, setPurchaseData] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   const [titleWidth, setTitleWidth] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+
   const scrollY = useRef(new Animated.Value(0)).current;
   let myList = useRef();
-
+  const selectedId = route?.params?.eventID;
   const animatedFontSize = scrollY.interpolate({
     inputRange: [START_ANIMATION_SCROLL_HEIGHT, END_ANIMATION_SCROLL_HEIGHT],
     outputRange: [
@@ -91,24 +94,25 @@ const EventDetailScreen = ({navigation, route}) => {
     extrapolate: 'clamp',
   });
 
-  const selectedId = route?.params?.eventID;
-  const callApi = async () => {
+  const callEventDetailApi = async () => {
     try {
       const response = await getEventDetail();
-      // console.log('response--', JSON.stringify(response?.data));
       if (
         response?.status === 200 &&
         response?.data?.eventDetails &&
         response?.data?.eventDetails.length > 0
       ) {
+        setIsLoading(false);
         setAllEvents(response?.data?.eventDetails);
       }
     } catch (error) {
+      setIsLoading(true);
       console.log('error  in detail res', error);
     }
   };
+
   useEffect(() => {
-    callApi();
+    callEventDetailApi();
   }, []);
 
   useEffect(() => {
@@ -129,7 +133,7 @@ const EventDetailScreen = ({navigation, route}) => {
     try {
       const response = await purchase(request);
       if (response?.status === 200 && response?.data) {
-        myList.current.scrollTo({animated: false, x: 200, y: 0});
+        myList.current.scrollTo({animated: false, x: 0, y: 0});
         setIsModalVisible(true);
         setPurchaseData(response?.data?.purchase);
       }
@@ -160,6 +164,7 @@ const EventDetailScreen = ({navigation, route}) => {
       console.log('error---', error);
     }
   };
+  // call api of checkout on click of close button, if response is ok, navigate to home screen
   const callCheckoutApi = async () => {
     try {
       const response = await getCheckoutDetails();
@@ -183,6 +188,7 @@ const EventDetailScreen = ({navigation, route}) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       {/* set backgroundColor image */}
+
       <Animated.View
         style={[styles.header, {transform: [{translateY: headerTranslateY}]}]}>
         <Animated.Image
@@ -199,6 +205,7 @@ const EventDetailScreen = ({navigation, route}) => {
           resizeMode={'cover'}
         />
       </Animated.View>
+
       {/* set header view */}
       <Animated.View style={styles.backView}>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
@@ -233,44 +240,46 @@ const EventDetailScreen = ({navigation, route}) => {
           {event?.name}
         </Animated.Text>
       </Animated.View>
-
-      <Animated.ScrollView
-        contentContainerStyle={styles.scrollContentView}
-        scrollEventThrottle={1}
-        onScroll={Animated.event(
-          [{nativeEvent: {contentOffset: {y: scrollY}}}],
-          {
-            useNativeDriver: false, // false used to set animated font size
-          },
-        )}
-        scrollToOverflowEnabled={true}
-        ref={myList}>
-        <EventDesc
-          event={event}
-          onPress={() => onPriceClick(event)}
-          onLocationClick={() => onLocationClick(event?.location)}
-        />
-        {/* open modal view  */}
-        <View>
-          {isModalVisible && (
-            <Modal
-              animationType={'fade'}
-              transparent={true}
-              visible={isModalVisible}
-              onRequestClose={() => {
-                console.log('Modal has been closed.');
-              }}>
-              {/*All views of Modal*/}
-              <ModalView
-                onPressClose={() => onCloseClick()}
-                // setIsModalVisible={setIsModalVisible}
-                setIsModalVisible={setIsModalVisible}
-                purchaseData={purchaseData}
-              />
-            </Modal>
+      {isLoading ? (
+        <LoaderView />
+      ) : (
+        <Animated.ScrollView
+          contentContainerStyle={styles.scrollContentView}
+          scrollEventThrottle={1}
+          onScroll={Animated.event(
+            [{nativeEvent: {contentOffset: {y: scrollY}}}],
+            {
+              useNativeDriver: false, // false used to set animated font size
+            },
           )}
-        </View>
-      </Animated.ScrollView>
+          scrollToOverflowEnabled={true}
+          ref={myList}>
+          <EventDesc
+            event={event}
+            onPress={() => onPriceClick(event)}
+            onLocationClick={() => onLocationClick(event?.location)}
+          />
+          {/* open modal view  */}
+          <View>
+            {isModalVisible && (
+              <Modal
+                animationType={'fade'}
+                transparent={true}
+                visible={isModalVisible}
+                onRequestClose={() => {
+                  console.log('Modal has been closed.');
+                }}>
+                {/*All views of Modal*/}
+                <ModalView
+                  onPressClose={() => onCloseClick()}
+                  setIsModalVisible={setIsModalVisible}
+                  purchaseData={purchaseData}
+                />
+              </Modal>
+            )}
+          </View>
+        </Animated.ScrollView>
+      )}
     </SafeAreaView>
   );
 };
