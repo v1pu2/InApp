@@ -55,7 +55,12 @@ const HomeScreen = ({navigation}) => {
   };
   const renderEventItem = item => {
     // console.log('item---', item);
-    return <AllEventCard data={item?.item} />;
+    return (
+      <AllEventCard
+        data={item?.item}
+        onCardPress={() => handlePressEventCard(item?.item?.id)}
+      />
+    );
   };
   return (
     <View style={{flex: 1}}>

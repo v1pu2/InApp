@@ -31,7 +31,7 @@ const EventDesc = ({event, onPress, onLocationClick}) => {
     return <Text style={styles.txtLocation}>{temp}</Text>;
   };
   return (
-    <View style={{paddingBottom: 70}}>
+    <View>
       <View style={c_styles.priceView}>
         <View style={c_styles.rowView}>
           <Text style={c_styles.txtTotalP}>Total Price:</Text>
@@ -75,11 +75,10 @@ const EventDesc = ({event, onPress, onLocationClick}) => {
           </View>
         </View>
         <View style={styles.grayView} />
-        {/* {locView()} */}
         <View style={styles.aboutView}>
           <Text style={styles.txtAbout}>Contact :</Text>
           <Text style={styles.txtContact}>Send us an email at</Text>
-          <View style={{flexDirection: 'row',backgroundColor:'red',}}>
+          <View style={{flexDirection: 'row', backgroundColor: 'red'}}>
             <Text
               style={styles.txtEmail}
               numberOfLines={2}
@@ -94,7 +93,7 @@ const EventDesc = ({event, onPress, onLocationClick}) => {
           </View>
         </View>
       </View>
-      <AnimatedBUtton onPress={onPress} isPrice={true}/>
+      <AnimatedBUtton onPress={onPress} isPrice={true} />
       {/* <TouchableOpacity style={styles.priceBtnView} onPress={onPress}>
         <Text style={styles.txtPrice}>{'{PRICE}'} - I’M IN!</Text>
       </TouchableOpacity> */}
@@ -219,5 +218,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 30,
   },
- 
 });
