@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import EventTimeSvg from '../assets/svgs/EventTimeSvg';
 import TicketSvg from '../assets/svgs/TicketSvg';
@@ -40,15 +41,38 @@ const EventRecCard = props => {
                   {event?.ticketsSold}/{event?.maxTickets}
                 </Text>
               </View>
-              <View style={styles.roundView}>
-                {event?.friendsAttending <= 2 ? (
+              <View style={[styles.roundView, {flex: 1}]}>
+                {event?.friendsAttending <= 1 ? (
                   <Text style={styles.txtFriend}>
                     {event?.friendsAttending} friends
                   </Text>
                 ) : (
-                  <Text style={styles.txtFriend}>
-                    2 +{event?.friendsAttending - 2} friends
-                  </Text>
+                  <View style={{flexDirection: 'row'}}>
+                    <View style={styles.avatarContainer}>
+                      <Image
+                        style={styles.avatar}
+                        source={{
+                          uri: 'https://www.learningcontainer.com/wp-content/uploads/2020/08/Large-Sample-png-Image-download-for-Testing.png',
+                        }}
+                      />
+                    </View>
+
+                    <View style={styles.avatarContainer}>
+                      <Image
+                        style={styles.avatar}
+                        source={{
+                          uri: 'http://lorempixel.com/output/cats-q-c-100-100-7.jpg',
+                        }}
+                      />
+                    </View>
+                    {event?.friendsAttending <= 2 ? (
+                      <Text style={styles.txtFriend}>friends</Text>
+                    ) : (
+                      <Text style={styles.txtFriend}>
+                        +{event?.friendsAttending - 2} friends
+                      </Text>
+                    )}
+                  </View>
                 )}
               </View>
               <View style={styles.lastRoundView}>
@@ -90,6 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
+    marginHorizontal: 5,
   },
   lastRoundView: {
     backgroundColor: '#02D9E7',
@@ -105,6 +130,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     lineHeight: 20,
     color: 'white',
+    paddingLeft: 5,
   },
   txtPrice: {
     ...fonts.normalM,
@@ -131,6 +157,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     lineHeight: 16,
     color: 'white',
+    marginLeft: 5,
   },
   txtTime: {
     ...fonts.normalM,
@@ -139,5 +166,26 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     color: 'white',
     paddingLeft: 10,
+  },
+  // overlapContainer: {
+  //   flexDirection: 'row-reverse',
+  //   justifyContent: 'flex-end',
+  //   marginTop: 20,
+  //   marginRight: 20,
+  // },
+  avatarContainer: {
+    borderRadius: 7,
+    height: 14,
+    width: 14,
+    marginLeft: -5,
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: 'white',
+  },
+  avatar: {
+    borderRadius: 6,
+    height: 12,
+    width: 12,
+    backgroundColor: 'green',
   },
 });
