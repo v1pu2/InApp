@@ -12,8 +12,6 @@ import fonts from '../theme/fonts';
 import moment from 'moment';
 
 const EventRecCard = props => {
-  // console.log('in eventcard', props?.data);
-
   const event = props?.data;
 
   return (
@@ -66,9 +64,9 @@ const EventRecCard = props => {
 export default EventRecCard;
 const styles = StyleSheet.create({
   cardContainer: {
-    height: 160,
-    width: 300,
-    margin: 10,
+    height: 170,
+    // width: 300,
+    // margin: 10,
   },
   image: {
     flex: 1,
