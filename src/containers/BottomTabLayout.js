@@ -1,4 +1,5 @@
 import React from 'react';
+import {Platform} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeScreen from './HomeScreen';
 import TicketScreen from './TicketScreen';
@@ -22,7 +23,7 @@ const BottomTabLayout = () => {
         tabBarStyle: {
           height: 70,
           // paddingHorizontal: 5,
-          paddingTop: 15,
+          paddingTop: Platform?.OS === 'ios' ? 25 : 15,
           // borderTopWidth: 0,
           backgroundColor: 'white',
           position: 'absolute',

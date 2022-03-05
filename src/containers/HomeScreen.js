@@ -1,22 +1,40 @@
-import {NavigationContainer} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   Text,
   View,
   StyleSheet,
-  ScrollView,
-  StatusBar,
   FlatList,
+  Dimensions,
+  Alert,
 } from 'react-native';
 import AllEventCard from '../component/AllEventCard';
 import EventRecCard from '../component/EventRecCard';
 import GeneralStatusBarColor from '../component/GeneralStatusBarColor';
 import {getEvents} from '../services';
 import fonts from '../theme/fonts';
+import colors from '../theme/colors';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
+import LoaderView from '../component/LoaderView';
+
+export const SLIDER_WIDTH = Dimensions.get('window').width + 30;
+export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 1);
+const {width} = Dimensions.get('window');
+function wp(percentage) {
+  const value = (percentage * width) / 100;
+  return Math.round(value);
+}
+const slideHeight = width * 0.36;
+const sliderWidth = width;
+const slideWidth = wp(75);
+const itemHorizontalMargin = wp(2);
+const itemWidth = slideWidth + itemHorizontalMargin * 2;
 
 const HomeScreen = ({navigation}) => {
   const [recEvent, setRecEvent] = useState([]);
   const [allEvents, setAllEvents] = useState([]);
+  const [index, setIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const isCarousel = useRef(null);
 
   const callApi = async () => {
     try {
@@ -27,10 +45,12 @@ const HomeScreen = ({navigation}) => {
         response?.data?.allEvents &&
         response?.data?.allEvents.length > 0
       ) {
+        setIsLoading(false);
         setAllEvents(response?.data?.allEvents);
       }
     } catch (error) {
       console.log('error', error);
+      Alert.alert('No API Response');
     }
   };
   useEffect(() => {
@@ -42,7 +62,6 @@ const HomeScreen = ({navigation}) => {
     setRecEvent(filterArray);
   }, [allEvents]);
   const handlePressEventCard = itemId => {
-    console.log('itemid---', itemId);
     navigation.navigate('Details', {eventID: itemId});
   };
   const renderItem = item => {
@@ -54,7 +73,6 @@ const HomeScreen = ({navigation}) => {
     );
   };
   const renderEventItem = item => {
-    // console.log('item---', item);
     return (
       <AllEventCard
         data={item?.item}
@@ -62,8 +80,9 @@ const HomeScreen = ({navigation}) => {
       />
     );
   };
+
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.root}>
       <GeneralStatusBarColor
         backgroundColor={'#A462E2'}
         barStyle="light-content"
@@ -72,42 +91,67 @@ const HomeScreen = ({navigation}) => {
       <View style={styles.topView}>
         <Text style={styles.txtWelcome}>Welcome</Text>
       </View>
-      <View style={{paddingLeft: 10}}>
-        <Text style={styles.txtRecEvent}>Recommended Events</Text>
-        <FlatList
-          horizontal
-          pagingEnabled={true}
-          showsHorizontalScrollIndicator={false}
-          legacyImplementation={false}
-          data={recEvent}
-          renderItem={item => renderItem(item)}
-          keyExtractor={item => item.id}
-        />
+      {isLoading && <LoaderView />}
+      <View>
+        {!isLoading && (
+          <Text style={styles.txtRecEvent}>Recommended Events</Text>
+        )}
+
+        {!isLoading && (
+          <View>
+            <Carousel
+              ref={isCarousel}
+              data={recEvent}
+              renderItem={item => renderItem(item)}
+              sliderWidth={sliderWidth}
+              itemWidth={itemWidth}
+              hasParallaxImages={true}
+              firstItem={1}
+              inactiveSlideScale={0.94}
+              inactiveSlideOpacity={0.7}
+              onSnapToItem={ind => setIndex(ind)}
+            />
+
+            <Pagination
+              dotsLength={recEvent.length}
+              activeDotIndex={index}
+              carouselRef={isCarousel}
+              dotStyle={styles.dotStyles}
+              tappableDots={true}
+              inactiveDotStyle={styles.inactiveDotStyles}
+              inactiveDotOpacity={0.4}
+              inactiveDotScale={0.8}
+            />
+          </View>
+        )}
       </View>
-      <View style={{paddingBottom: 90, flex: 1}}>
-        <Text style={styles.txtRecEvent}>All Events</Text>
-        <FlatList
-          pagingEnabled={true}
-          showsHorizontalScrollIndicator={false}
-          legacyImplementation={false}
-          data={allEvents}
-          renderItem={item => renderEventItem(item)}
-          keyExtractor={item => item.id}
-        />
-      </View>
+      {!isLoading && (
+        <View style={styles.allEventView}>
+          <Text style={styles.txtRecEvent}>All Events</Text>
+
+          <FlatList
+            pagingEnabled={true}
+            showsHorizontalScrollIndicator={false}
+            legacyImplementation={false}
+            data={allEvents}
+            renderItem={item => renderEventItem(item)}
+            keyExtractor={item => item.id}
+          />
+        </View>
+      )}
     </View>
   );
 };
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  container: {
+  root: {
     flex: 1,
-    marginTop: 30,
   },
   topView: {
     height: 80,
-    backgroundColor: '#7555CF',
+    // backgroundColor: '#7555CF',
+    backgroundColor: colors.color2,
     borderBottomRightRadius: 30,
     borderBottomLeftRadius: 30,
     justifyContent: 'center',
@@ -126,10 +170,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     lineHeight: 27,
   },
-  root: {
-    flex: 1,
-    marginBottom: 30,
-  },
   txtRecEvent: {
     color: '#565066',
     paddingLeft: 20,
@@ -144,4 +184,22 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     margin: 10,
   },
+  dotStyles: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    marginHorizontal: 8,
+    backgroundColor: '#475464',
+  },
+  loaderView: {flex: 1, justifyContent: 'center'},
+  slideInnerContainer: {
+    width: itemWidth,
+    height: slideHeight,
+    paddingHorizontal: itemHorizontalMargin,
+    paddingBottom: 18, // needed for shadow
+  },
+  inactiveDotStyles: {
+    backgroundColor: '#E4DDDD',
+  },
+  allEventView: {paddingBottom: 90, flex: 1},
 });
