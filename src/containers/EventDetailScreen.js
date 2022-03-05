@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import GeneralStatusBarColor from '../component/GeneralStatusBarColor';
-import {getEventDetail, purchase} from '../services';
+import {getCheckoutDetails, getEventDetail, purchase} from '../services';
 import fonts from '../theme/fonts';
 
 import EventDesc from '../component/EventDesc';
@@ -137,10 +137,24 @@ const EventDetailScreen = ({navigation, route}) => {
       console.log('error---', error);
     }
   };
+  const callCheckoutApi = async () => {
+    try {
+      const response = await getCheckoutDetails();
+      if (
+        response?.status === 200 &&
+        response?.data?.checkout &&
+        response?.data?.checkout.length > 0
+      ) {
+        setIsModalVisible(false);
+        navigation.navigate('Home');
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
   // close the modal view and navigate to home
   const onCloseClick = () => {
-    setIsModalVisible(false);
-    navigation.navigate('Home');
+    callCheckoutApi();
   };
   return (
     <SafeAreaView style={styles.saveArea}>
