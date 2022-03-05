@@ -77,11 +77,11 @@ const EventDesc = ({event, onPress, onLocationClick}) => {
         <View style={styles.grayView} />
         <View style={styles.aboutView}>
           <Text style={styles.txtAbout}>Contact :</Text>
-          <Text style={styles.txtContact}>Send us an email at</Text>
-          <View style={{flexDirection: 'row', backgroundColor: 'red'}}>
+
+          <View style={styles.contactValueView}>
+            <Text style={styles.txtContact}>Send us an email at </Text>
             <Text
               style={styles.txtEmail}
-              numberOfLines={2}
               onPress={() =>
                 Linking.openURL(
                   'mailto:contact@techalchemy.co?subject=SendMail&body=Description',
@@ -94,9 +94,6 @@ const EventDesc = ({event, onPress, onLocationClick}) => {
         </View>
       </View>
       <AnimatedBUtton onPress={onPress} isPrice={true} />
-      {/* <TouchableOpacity style={styles.priceBtnView} onPress={onPress}>
-        <Text style={styles.txtPrice}>{'{PRICE}'} - I’M IN!</Text>
-      </TouchableOpacity> */}
     </View>
   );
 };
@@ -187,15 +184,18 @@ const styles = StyleSheet.create({
   },
   txtContact: {
     color: '#475464',
-    paddingLeft: 10,
     ...fonts.normalM,
     fontSize: 15,
     lineHeight: 18,
     fontWeight: '500',
   },
+  contactValueView: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingLeft: 10,
+  },
   txtEmail: {
     color: '#936EFE',
-    paddingLeft: 10,
     ...fonts.normalM,
     fontSize: 15,
     lineHeight: 18,
