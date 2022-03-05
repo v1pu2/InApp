@@ -60,7 +60,7 @@ const EventDetailScreen = ({navigation, route}) => {
     outputRange: [0, 0, -8],
     extrapolate: 'clamp',
   });
-
+  console.log('titleTranslateY', titleTranslateY);
   const selectedId = route?.params?.eventID;
   const callApi = async () => {
     try {
@@ -123,8 +123,53 @@ const EventDetailScreen = ({navigation, route}) => {
           ios: 'maps:' + latitude + ',' + longitude + '?q=' + label,
           android: 'geo:' + latitude + ',' + longitude + '?q=' + label,
         });
-        console.log(url);
+
+        console.log('===url====>', url);
         Linking.openURL(url);
+
+        // const url1 = Platform.select({
+        //   ios: `comgooglemaps://?center=${latitude},${longitude}&q=${latitude},${longitude}&zoom=14&views=traffic"`,
+        //   android: `geo://?q=${latitude},${longitude}`,
+        // });
+        // Linking.canOpenURL(url1)
+        //   .then(supported => {
+        //     if (supported) {
+        //       console.log('in ifff');
+        //       Linking.openURL(url1);
+        //     } else {
+        //       console.log('in elseee');
+        //       const browser_url = `https://www.google.de/maps/@${latitude},${longitude}`;
+        //       Linking.openURL(browser_url);
+        //     }
+        //   })
+        //   .catch(() => {
+        //     console.log('in catch');
+        //     if (Platform.OS === 'ios') {
+        //       Linking.openURL(`maps://?q=${latitude},${longitude}`);
+        //     }
+        //   });
+
+        // Linking.openURL(url);
+        // Linking.canOpenURL(url)
+        //   .then(supported => {
+        //     if (supported) {
+        //       const label1 = 'New York, NY, USA';
+
+        //       const url1 = Platform.select({
+        //         ios: 'maps:' + latitude1 + ',' + longitude1 + '?q=' + label1,
+        //         android: 'geo:' + latitude1 + ',' + longitude1 + '?q=' + label1,
+        //       });
+        //       Linking.openURL(url1);
+        //     } else {
+        //       const browser_url = `https://www.google.de/maps/@${latitude},${longitude}`;
+        //       return Linking.openURL(browser_url);
+        //     }
+        //   })
+        //   .catch(() => {
+        //     if (Platform.OS === 'ios') {
+        //       Linking.openURL(`maps://?q=${latitude1},${longitude1}`);
+        //     }
+        //   });
       });
     } catch (error) {
       console.log('error---', error);
@@ -167,10 +212,18 @@ const EventDetailScreen = ({navigation, route}) => {
           resizeMode={'cover'}
         />
       </Animated.View>
-      <Animated.View style={[styles.backView]}>
+      <Animated.View style={styles.backView}>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
           <BackSvg />
         </TouchableOpacity>
+        <View style={styles.titleView}>
+          <Text
+            style={styles.txtName}
+            numberOfLines={1}
+            adjustsFontSizeToFit={true}>
+            {event?.name}
+          </Text>
+        </View>
       </Animated.View>
       <Animated.View
         style={[
@@ -179,7 +232,12 @@ const EventDetailScreen = ({navigation, route}) => {
             transform: [{scale: titleScale}, {translateY: titleTranslateY}],
           },
         ]}>
-        <Text style={styles.txtName}>{event?.name}</Text>
+        <Text
+          style={styles.txtName}
+          numberOfLines={1}
+          adjustsFontSizeToFit={true}>
+          {event?.name}
+        </Text>
       </Animated.View>
       <Animated.ScrollView
         contentContainerStyle={styles.scrollContentView}
@@ -231,6 +289,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     marginTop: Platform.OS === 'ios' ? 20 : 40,
     marginLeft: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  titleView: {
+    alignItems: 'center',
+    flex: 1,
+    paddingHorizontal: 5,
   },
   card: {
     flexDirection: 'row',
