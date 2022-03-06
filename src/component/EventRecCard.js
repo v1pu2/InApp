@@ -43,13 +43,18 @@ const EventRecCard = props => {
                   {event?.ticketsSold}/{event?.maxTickets}
                 </Text>
               </View>
-              <View style={[styles.roundView, {flex: 1}]}>
+              <View style={[styles.roundView]}>
                 {event?.friendsAttending <= 1 ? (
                   <Text style={styles.txtFriend}>
-                    {event?.friendsAttending} {CONSTANT_VALUE.FRIENDS}
+                    {event?.friendsAttending}
+                    {CONSTANT_VALUE.FRIENDS}
                   </Text>
                 ) : (
-                  <View style={{flexDirection: 'row'}}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      paddingLeft: event?.friendsAttending >= 2 && 5,
+                    }}>
                     <View style={styles.avatarContainer}>
                       <Image
                         style={styles.avatar}
@@ -111,7 +116,7 @@ const styles = StyleSheet.create({
     borderColor: colors.color1,
     borderWidth: 1,
     borderRadius: 50,
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
     paddingVertical: 3,
     justifyContent: 'center',
     flexDirection: 'row',
@@ -121,7 +126,7 @@ const styles = StyleSheet.create({
   lastRoundView: {
     backgroundColor: colors.color5,
     borderRadius: 50,
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
     paddingVertical: 3,
     justifyContent: 'center',
     alignItems: 'center',
