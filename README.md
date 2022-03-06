@@ -2,6 +2,10 @@
 
 This App (InApp) has been designed and developed based on the [Figma link](https://www.figma.com/file/GNUmBwk2x8Eq28KyvA4Y0v/Mobile-Dev-Test?node-id=3665%3A11).
 
+## Demo
+
+![InApp - Animated gif demo](demo/demo.gif)
+
 ## Base dependencies
 
 - [axios](https://github.com/axios/axios) for networking.
@@ -35,7 +39,7 @@ To customize the splash screen (logo, background colour and text) use a timer to
 
 ### Styleguide
 
-For coding styling, use StyleSheet of React-native.
+For coding styling, use `StyleSheet` of React-native.
 
 ### Components
 
@@ -47,14 +51,19 @@ To keep an application scalable and organized, the global static resources that 
 
 ### Services folder and API connection handler
 
-To keep the networking layer simple, Axios is used.
+To keep the networking layer simple, `Axios` is used.
 
 While communicating with a network, just create a function to manage the operation and group according to the kind of transaction inside a service file.
 While the data transfer between the API and the app is working, we have used try and catch for the result of the operation.
 
-## Containers
+## Containers and Features
 
-In this folder, applied the main objects for the composition architecture. Create the view of each screen by using constants, theme and hooks.
+- In this folder, applied the main objects for the composition architecture. View of each screen by using component, constants, theme and hooks.
+- In the Event Detail Screen usage of custom code for parallax and blur effect on upwards scroll animation.
+- Animate heart icon on tap with red color
+- Usage of `TouchableWithoutFeedback` for In-Out animation on `Price` and `Close` Button.
+- ‘Take me there’ button opens the native map application(based on the navigation set to the address that is linked to the event).
+- Clicking on the `email` opens the Gmail app with some static intro text and a custom subject.
 
 ## Caveats
 There is no option available for calling checkout API in the Figma link. For demonstration, I have called it on the Purchase screen, on click of the close button.
