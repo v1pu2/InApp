@@ -9,7 +9,6 @@ import {
   Animated,
   Dimensions,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import axios from 'axios';
 
@@ -20,6 +19,8 @@ import EventDesc from '../component/EventDesc';
 import ModalView from '../component/ModalView';
 import BackSvg from '../assets/svgs/BackSvg';
 import LoaderView from '../component/LoaderView';
+import colors from '../theme/colors';
+import {CONSTANT_VALUE} from '../constants';
 
 const HEADER_WIDTH = Dimensions.get('window').width;
 const HEADER_MAX_HEIGHT = 340; //  set Image height
@@ -146,7 +147,9 @@ const EventDetailScreen = ({navigation, route}) => {
   };
   // click and open map application
   const onLocationClick = location => {
-    const link = `http://api.positionstack.com/v1/forward?access_key=81f2cbab5535951fe844607ead12aad2&query=${location}`;
+    // const locUrl =
+    //  ;
+    const link = CONSTANT_VALUE.LOCATION_URL + `${location}`;
 
     try {
       axios.get(link).then(res => {
@@ -195,7 +198,7 @@ const EventDetailScreen = ({navigation, route}) => {
           style={[
             styles.headerBackground,
             {
-              opacity: imageOpacity,
+              opacity: 0.7,
               transform: [{translateY: imageTranslateY}],
             },
           ]}
@@ -288,7 +291,7 @@ export default EventDetailScreen;
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#eff3fb',
+    backgroundColor: colors.color15,
   },
   scrollContentView: {
     paddingTop: HEADER_MAX_HEIGHT - 80,
@@ -306,7 +309,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#7555CF',
+    backgroundColor: colors.color2,
     overflow: 'hidden',
     height: HEADER_MAX_HEIGHT,
   },
@@ -320,7 +323,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   txtName: {
-    color: 'white',
+    color: colors.color1,
     ...fonts.normalM,
     fontSize: Platform.OS === 'ios' ? 20 : 22,
     fontWeight: '700',

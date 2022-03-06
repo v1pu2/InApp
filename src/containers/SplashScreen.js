@@ -2,6 +2,8 @@ import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import LoaderIconSvg from '../assets/svgs/LoaderIconSvg';
 import SplashIconSvg from '../assets/svgs/SplashIconSvg';
+import {CONSTANT_VALUE} from '../constants';
+import colors from '../theme/colors';
 
 export const SplashScreen = () => {
   return (
@@ -12,7 +14,7 @@ export const SplashScreen = () => {
       <View style={styles.footer}>
         <LoaderIconSvg />
         <Text style={styles.txtCopy}>
-          {'\u00A9'} 2020 Are You In app. All rights reserved
+          {'\u00A9'} {CONSTANT_VALUE.RESERVE}
         </Text>
       </View>
     </View>
@@ -23,7 +25,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#7555CF',
+    backgroundColor: colors.color2,
   },
   iconView: {
     flex: 1,
@@ -36,11 +38,10 @@ const styles = StyleSheet.create({
   },
   txtCopy: {
     fontFamily: 'Montserrat-Bold',
-    // ...fonts.normalM,
     fontSize: 12,
     fontWeight: '500',
     lineHeight: 15,
-    color: 'white',
+    color: colors.color1,
     marginTop: 34,
   },
 });

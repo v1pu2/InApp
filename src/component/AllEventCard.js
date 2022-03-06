@@ -13,6 +13,8 @@ import TicketSvg from '../assets/svgs/TicketSvg';
 import fonts from '../theme/fonts';
 import c_styles from '../theme/CommonStyles';
 import moment from 'moment';
+import {CONSTANT_VALUE} from '../constants';
+import colors from '../theme/colors';
 
 const AllEventCard = props => {
   const event = props?.data;
@@ -32,7 +34,9 @@ const AllEventCard = props => {
           <View style={styles.topView}>
             {event?.isPartnered && (
               <View style={styles.roundViewP}>
-                <Text style={styles.txtPartner}>Partnered </Text>
+                <Text style={styles.txtPartner}>
+                  {CONSTANT_VALUE.PARTNERED}
+                </Text>
               </View>
             )}
             <View style={styles.roundViewF}>
@@ -60,7 +64,7 @@ const AllEventCard = props => {
       <View style={styles.contentView}>
         <View style={c_styles.priceView}>
           <View style={c_styles.rowView}>
-            <Text style={c_styles.txtTotalP}>Total Price:</Text>
+            <Text style={c_styles.txtTotalP}>{CONSTANT_VALUE.TOTAL_PRICE}</Text>
             <Text style={c_styles.txtPrice}> £{event?.totalPrize}</Text>
           </View>
           <View>
@@ -69,8 +73,11 @@ const AllEventCard = props => {
         </View>
         <View style={styles.creatorView}>
           <CreatorSvg />
-          <Text style={styles.txtCreator}>Event Creator:</Text>
-          <Text style={styles.txtCreatorName}> Steave Jobs</Text>
+          <Text style={styles.txtCreator}>{CONSTANT_VALUE.EVENT_CREATOR}</Text>
+          <Text style={styles.txtCreatorName}>
+            {' '}
+            {CONSTANT_VALUE.STEAVE_JOBS}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -105,8 +112,8 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   roundViewP: {
-    backgroundColor: '#02D9E7',
-    borderColor: '#02D9E7',
+    backgroundColor: colors.color5,
+    borderColor: colors.color5,
     borderWidth: 1,
     borderRadius: 50,
     paddingHorizontal: 10,
@@ -117,8 +124,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   roundViewF: {
-    backgroundColor: 'white',
-    borderColor: 'white',
+    backgroundColor: colors.color1,
+    borderColor: colors.color1,
     borderWidth: 1,
     borderRadius: 50,
     paddingHorizontal: 10,
@@ -128,7 +135,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   lastRoundView: {
-    backgroundColor: '#02D9E7',
+    backgroundColor: colors.color5,
     borderTopLeftRadius: 30,
     borderBottomLeftRadius: 30,
     paddingHorizontal: 20,
@@ -141,7 +148,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     lineHeight: 35,
-    color: 'white',
+    color: colors.color1,
     paddingVertical: 5,
   },
   txtTicket: {
@@ -150,7 +157,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 'bold',
     lineHeight: 20,
-    color: 'white',
+    color: colors.color1,
     paddingLeft: 5,
   },
   txtTitle: {
@@ -158,7 +165,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     lineHeight: 24,
-    color: 'white',
+    color: colors.color1,
   },
   bottomView: {
     flex: 1,
@@ -170,23 +177,23 @@ const styles = StyleSheet.create({
   txtFootball: {
     ...fonts.normalM,
     fontSize: 12,
-    fontWeight: 'bold',
+    fontWeight: colors.color0,
     lineHeight: 16,
-    color: 'black',
+    color: colors.color0,
   },
   txtPartner: {
     ...fonts.normalM,
     fontSize: 12,
     fontWeight: 'bold',
     lineHeight: 20,
-    color: 'white',
+    color: colors.color1,
   },
   txtTime: {
     ...fonts.normalM,
     fontSize: 13,
     fontWeight: '600',
     lineHeight: 16,
-    color: 'white',
+    color: colors.color1,
     paddingLeft: 10,
   },
   creatorView: {
@@ -199,7 +206,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     lineHeight: 17,
-    color: '#0FC6C0',
+    color: colors.color6,
     paddingLeft: 10,
   },
   txtCreatorName: {
@@ -207,12 +214,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     lineHeight: 17,
-    color: '#475464',
+    color: colors.color7,
   },
   contentView: {
     flex: 1,
     paddingVertical: 30,
     padding: 20,
-    backgroundColor: 'white',
+    backgroundColor: colors.color1,
   },
 });

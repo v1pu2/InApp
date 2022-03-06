@@ -1,10 +1,13 @@
 import React, {useState} from 'react';
 import {Text, View, StyleSheet, Linking, TouchableOpacity} from 'react-native';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import FollowSvg from '../assets/svgs/FollowSvg';
 import LikeSvg from '../assets/svgs/LikeSvg';
 import LocationSvg from '../assets/svgs/locationSvg';
 import TicketDetailSvg from '../assets/svgs/TicketDetailSvg';
+import {CONSTANT_VALUE} from '../constants';
+import colors from '../theme/colors';
 import c_styles from '../theme/CommonStyles';
 import fonts from '../theme/fonts';
 import AnimatedBUtton from './AnimatedButton';
@@ -26,32 +29,32 @@ const EventDesc = ({event, onPress, onLocationClick}) => {
     <View>
       <View style={c_styles.priceView}>
         <View style={c_styles.rowView}>
-          <Text style={c_styles.txtTotalP}>Total Price:</Text>
+          <Text style={c_styles.txtTotalP}>{CONSTANT_VALUE.TOTAL_PRICE}</Text>
           <Text style={c_styles.txtPrice}> £{event?.totalPrize}</Text>
         </View>
         <View style={styles.roundView}>
           <FollowSvg />
-          <Text style={styles.txtShareView}>Share Event</Text>
+          <Text style={styles.txtShareView}>{CONSTANT_VALUE.SHARE_EVENT}</Text>
         </View>
         <TouchableOpacity
           onPress={() => {
             setIsLike(!isLike);
           }}>
-          <LikeSvg color={isLike ? 'red' : '#475464'} />
+          <LikeSvg color={isLike ? 'red' : colors.color7} />
         </TouchableOpacity>
       </View>
       <View style={styles.rowView}>
         <TicketDetailSvg />
         <Text style={styles.txtTicket}>
-          {event?.ticketsSold}/{event?.maxTickets} attending
+          {event?.ticketsSold}/{event?.maxTickets} {CONSTANT_VALUE.ATTENDING}
         </Text>
       </View>
       <View style={styles.aboutView}>
-        <Text style={styles.txtAbout}>ABOUT :</Text>
+        <Text style={styles.txtAbout}>{CONSTANT_VALUE.ABOUT}</Text>
         <Text style={styles.txtDesc}>{event?.description}</Text>
       </View>
       <View style={styles.aboutView}>
-        <Text style={styles.txtAbout}>Location :</Text>
+        <Text style={styles.txtAbout}>{CONSTANT_VALUE.LOCATION}</Text>
         <View style={{flexDirection: 'row'}}>
           <View style={styles.locationView}>
             <View style={styles.iconAddView}>
@@ -62,16 +65,16 @@ const EventDesc = ({event, onPress, onLocationClick}) => {
 
           <View style={styles.takeView}>
             <Text style={styles.txtTake} onPress={onLocationClick}>
-              Take me there
+              {CONSTANT_VALUE.TAKE_ME_THERE}
             </Text>
           </View>
         </View>
         <View style={styles.grayView} />
         <View style={styles.aboutView}>
-          <Text style={styles.txtAbout}>Contact :</Text>
-
+          <Text style={styles.txtAbout}>{CONSTANT_VALUE.CONTACT}</Text>
+          {/* on Click og email id, navigate to gmail with subject and description  */}
           <View style={styles.contactValueView}>
-            <Text style={styles.txtContact}>Send us an email at </Text>
+            <Text style={styles.txtContact}>{CONSTANT_VALUE.SEND_EMAIL} </Text>
             <Text
               style={styles.txtEmail}
               onPress={() =>
@@ -79,9 +82,9 @@ const EventDesc = ({event, onPress, onLocationClick}) => {
                   'mailto:contact@techalchemy.co?subject=SendMail&body=Description',
                 )
               }>
-              contact@techalchemy.co
+              {CONSTANT_VALUE.EMAIL_ID}
             </Text>
-            <Text style={styles.txtContact}>or call us at +1 991-681-0200</Text>
+            <Text style={styles.txtContact}>{CONSTANT_VALUE.CALL_NUM}</Text>
           </View>
         </View>
       </View>
@@ -93,8 +96,8 @@ export default EventDesc;
 
 const styles = StyleSheet.create({
   roundView: {
-    backgroundColor: '#9DA6B1',
-    borderColor: 'white',
+    backgroundColor: colors.color10,
+    borderColor: colors.color1,
     borderWidth: 1,
     borderRadius: 50,
     paddingHorizontal: 15,
@@ -109,7 +112,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   txtShareView: {
-    color: 'white',
+    color: colors.color1,
     paddingLeft: 10,
     ...fonts.normalM,
     fontSize: 12,
@@ -121,14 +124,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     lineHeight: 17,
-    color: '#7555CF',
+    color: colors.color2,
     paddingLeft: 10,
   },
   aboutView: {
     paddingTop: 30,
   },
   txtAbout: {
-    color: '#475464',
+    color: colors.color7,
     paddingLeft: 10,
     ...fonts.normalM,
     fontSize: 13,
@@ -138,7 +141,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   txtDesc: {
-    color: '#475464',
+    color: colors.color7,
     paddingLeft: 10,
     ...fonts.normalM,
     fontSize: 15,
@@ -150,7 +153,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   txtLocation: {
-    color: '#475464',
+    color: colors.color7,
     paddingLeft: 10,
     ...fonts.normalM,
     fontSize: 16,
@@ -161,13 +164,13 @@ const styles = StyleSheet.create({
   takeView: {
     justifyContent: 'center',
     borderRadius: 30,
-    borderColor: '#6658D3',
+    borderColor: colors.color13,
     borderWidth: 1,
     alignItems: 'center',
     height: 40,
   },
   txtTake: {
-    color: '#6658D3',
+    color: colors.color13,
     paddingHorizontal: 20,
     ...fonts.normalM,
     fontSize: 13,
@@ -175,7 +178,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   txtContact: {
-    color: '#475464',
+    color: colors.color7,
     ...fonts.normalM,
     fontSize: 15,
     lineHeight: 18,
@@ -187,18 +190,18 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   txtEmail: {
-    color: '#936EFE',
+    color: colors.color9,
     ...fonts.normalM,
     fontSize: 15,
     lineHeight: 18,
     fontWeight: '500',
   },
   txtPrice: {
-    color: 'white',
+    color: colors.color1,
     ...fonts.normalM,
     fontSize: 16,
     lineHeight: 20,
     fontWeight: '600',
   },
-  grayView: {height: 1, backgroundColor: '#E5E4EB', marginTop: 10},
+  grayView: {height: 1, backgroundColor: colors.color11, marginTop: 10},
 });

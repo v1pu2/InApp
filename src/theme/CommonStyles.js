@@ -1,11 +1,12 @@
 import {StyleSheet} from 'react-native';
+import colors from './colors';
 import fonts from './fonts';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#7555CF',
+    backgroundColor: colors.color2,
   },
   drawerUpperView: {
     height: 200,
@@ -29,14 +30,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     lineHeight: 17,
-    color: '#475464',
+    color: colors.color7,
   },
   txtPrice: {
     ...fonts.boldM,
     fontSize: 14,
     fontWeight: 'bold',
     lineHeight: 17,
-    color: '#475464',
+    color: colors.color7,
+  },
+  main: {
+    flex: 1,
+    backgroundColor: colors.color1,
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 export default styles;
