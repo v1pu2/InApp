@@ -211,7 +211,9 @@ const EventDetailScreen = ({navigation, route}) => {
 
       {/* set header view */}
       <Animated.View style={styles.backView}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Home')}
+          style={{paddingHorizontal: 10}}>
           <BackSvg />
         </TouchableOpacity>
       </Animated.View>
@@ -300,7 +302,7 @@ const styles = StyleSheet.create({
   backView: {
     backgroundColor: 'transparent',
     marginTop: Platform.OS === 'ios' ? 10 : 50,
-    marginLeft: 20,
+    marginLeft: 10,
     flexDirection: 'row',
     alignItems: 'center',
   },

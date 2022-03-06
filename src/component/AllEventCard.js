@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   txtFootball: {
     ...fonts.normalM,
     fontSize: 12,
-    fontWeight: colors.color0,
+    fontWeight: '600',
     lineHeight: 16,
     color: colors.color0,
   },

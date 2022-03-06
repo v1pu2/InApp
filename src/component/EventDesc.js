@@ -37,6 +37,7 @@ const EventDesc = ({event, onPress, onLocationClick}) => {
           <Text style={styles.txtShareView}>{CONSTANT_VALUE.SHARE_EVENT}</Text>
         </View>
         <TouchableOpacity
+          style={{padding: 10}}
           onPress={() => {
             setIsLike(!isLike);
           }}>

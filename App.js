@@ -4,6 +4,7 @@ import {StatusBar} from 'react-native';
 import Navigator from './src/containers/Navigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import colors from './src/theme/colors';
+console.disableYellowBox = true;
 const App = () => {
   return (
     <SafeAreaProvider>
