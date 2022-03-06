@@ -11,6 +11,7 @@ import PersonScreen from './PersonScreen';
 import SettingScreen from './SettingScreen';
 import SettingSvg from '../assets/svgs/SettingSvg';
 import PersonSvg from '../assets/svgs/PersonSvg';
+import colors from '../theme/colors';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,9 +23,7 @@ const BottomTabLayout = () => {
         headerShown: false,
         tabBarStyle: {
           height: 70,
-          // paddingHorizontal: 5,
           paddingTop: Platform?.OS === 'ios' ? 25 : 15,
-          // borderTopWidth: 0,
           backgroundColor: 'white',
           position: 'absolute',
           overflow: 'hidden',
@@ -39,9 +38,9 @@ const BottomTabLayout = () => {
           tabBarLabel: '',
           tabBarIcon: ({focused}) =>
             focused ? (
-              <HomeSvg color={'#7555CF'} />
+              <HomeSvg color={colors.color2} />
             ) : (
-              <HomeSvg color={'#475464'} />
+              <HomeSvg color={colors.color7} />
             ),
         }}
       />
@@ -52,9 +51,9 @@ const BottomTabLayout = () => {
           tabBarLabel: '',
           tabBarIcon: ({focused}) =>
             focused ? (
-              <BottomTicketSvg color={'#7555CF'} />
+              <BottomTicketSvg color={colors.color2} />
             ) : (
-              <BottomTicketSvg color={'#475464'} />
+              <BottomTicketSvg color={colors.color7} />
             ),
         }}
       />
@@ -65,9 +64,9 @@ const BottomTabLayout = () => {
           tabBarLabel: '',
           tabBarIcon: ({focused}) =>
             focused ? (
-              <GameSvg color={'#7555CF'} />
+              <GameSvg color={colors.color2} />
             ) : (
-              <GameSvg color={'#475464'} />
+              <GameSvg color={colors.color7} />
             ),
         }}
       />
@@ -78,9 +77,9 @@ const BottomTabLayout = () => {
           tabBarLabel: '',
           tabBarIcon: ({focused}) =>
             focused ? (
-              <PersonSvg color={'#7555CF'} />
+              <PersonSvg color={colors.color2} />
             ) : (
-              <PersonSvg color={'#475464'} />
+              <PersonSvg color={colors.color7} />
             ),
         }}
       />
@@ -91,9 +90,9 @@ const BottomTabLayout = () => {
           tabBarLabel: '',
           tabBarIcon: ({focused}) =>
             focused ? (
-              <SettingSvg color={'#7555CF'} />
+              <SettingSvg color={colors.color2} />
             ) : (
-              <SettingSvg color={'#475464'} />
+              <SettingSvg color={colors.color7} />
             ),
         }}
       />

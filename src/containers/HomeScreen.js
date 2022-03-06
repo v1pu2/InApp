@@ -15,6 +15,7 @@ import fonts from '../theme/fonts';
 import colors from '../theme/colors';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import LoaderView from '../component/LoaderView';
+import {CONSTANT_VALUE} from '../constants';
 
 export const SLIDER_WIDTH = Dimensions.get('window').width + 30;
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 1);
@@ -89,12 +90,12 @@ const HomeScreen = ({navigation}) => {
       />
 
       <View style={styles.topView}>
-        <Text style={styles.txtWelcome}>Welcome</Text>
+        <Text style={styles.txtWelcome}>{CONSTANT_VALUE.WELCOME}</Text>
       </View>
       {isLoading && <LoaderView />}
       <View>
         {!isLoading && (
-          <Text style={styles.txtRecEvent}>Recommended Events</Text>
+          <Text style={styles.txtRecEvent}>{CONSTANT_VALUE.REC_EVENTS}</Text>
         )}
 
         {!isLoading && (
@@ -127,7 +128,7 @@ const HomeScreen = ({navigation}) => {
       </View>
       {!isLoading && (
         <View style={styles.allEventView}>
-          <Text style={styles.txtRecEvent}>All Events</Text>
+          <Text style={styles.txtRecEvent}>{CONSTANT_VALUE.ALL_EVENTS}</Text>
 
           <FlatList
             pagingEnabled={true}
@@ -150,20 +151,19 @@ const styles = StyleSheet.create({
   },
   topView: {
     height: 80,
-    // backgroundColor: '#7555CF',
     backgroundColor: colors.color2,
     borderBottomRightRadius: 30,
     borderBottomLeftRadius: 30,
     justifyContent: 'center',
     marginBottom: 29,
-    shadowColor: '#000000',
+    shadowColor: colors.color0,
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.5,
     shadowRadius: 8,
     elevation: 3,
   },
   txtWelcome: {
-    color: 'white',
+    color: colors.color1,
     paddingLeft: 20,
     ...fonts.normalM,
     fontSize: 22,
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     lineHeight: 27,
   },
   txtRecEvent: {
-    color: '#565066',
+    color: colors.color16,
     paddingLeft: 20,
     ...fonts.normalM,
     fontSize: 13,
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     height: 10,
     borderRadius: 5,
     marginHorizontal: 8,
-    backgroundColor: '#475464',
+    backgroundColor: colors.color7,
   },
   loaderView: {flex: 1, justifyContent: 'center'},
   slideInnerContainer: {
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     paddingBottom: 18, // needed for shadow
   },
   inactiveDotStyles: {
-    backgroundColor: '#E4DDDD',
+    backgroundColor: colors.color17,
   },
   allEventView: {paddingBottom: 90, flex: 1},
 });
