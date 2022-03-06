@@ -11,6 +11,8 @@ import EventTimeSvg from '../assets/svgs/EventTimeSvg';
 import TicketSvg from '../assets/svgs/TicketSvg';
 import fonts from '../theme/fonts';
 import moment from 'moment';
+import {CONSTANT_VALUE} from '../constants';
+import colors from '../theme/colors';
 
 const EventRecCard = props => {
   const event = props?.data;
@@ -21,7 +23,7 @@ const EventRecCard = props => {
         source={{uri: event?.mainImage}}
         resizeMode="cover"
         style={styles.image}
-        blurRadius={2}
+        // blurRadius={6}
         borderRadius={25}>
         <View style={styles.innerView}>
           <View style={styles.topView}>
@@ -44,7 +46,7 @@ const EventRecCard = props => {
               <View style={[styles.roundView, {flex: 1}]}>
                 {event?.friendsAttending <= 1 ? (
                   <Text style={styles.txtFriend}>
-                    {event?.friendsAttending} friends
+                    {event?.friendsAttending} {CONSTANT_VALUE.FRIENDS}
                   </Text>
                 ) : (
                   <View style={{flexDirection: 'row'}}>
@@ -66,10 +68,12 @@ const EventRecCard = props => {
                       />
                     </View>
                     {event?.friendsAttending <= 2 ? (
-                      <Text style={styles.txtFriend}>friends</Text>
+                      <Text style={styles.txtFriend}>
+                        {CONSTANT_VALUE.FRIENDS}
+                      </Text>
                     ) : (
                       <Text style={styles.txtFriend}>
-                        +{event?.friendsAttending - 2} friends
+                        +{event?.friendsAttending - 2} {CONSTANT_VALUE.FRIENDS}
                       </Text>
                     )}
                   </View>
@@ -89,8 +93,6 @@ export default EventRecCard;
 const styles = StyleSheet.create({
   cardContainer: {
     height: 170,
-    // width: 300,
-    // margin: 10,
   },
   image: {
     flex: 1,
@@ -105,8 +107,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   roundView: {
-    backgroundColor: 'black',
-    borderColor: 'white',
+    backgroundColor: colors.color0,
+    borderColor: colors.color1,
     borderWidth: 1,
     borderRadius: 50,
     paddingHorizontal: 15,
@@ -117,7 +119,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   lastRoundView: {
-    backgroundColor: '#02D9E7',
+    backgroundColor: colors.color5,
     borderRadius: 50,
     paddingHorizontal: 15,
     paddingVertical: 3,
@@ -129,7 +131,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 'bold',
     lineHeight: 20,
-    color: 'white',
+    color: colors.color1,
     paddingLeft: 5,
   },
   txtPrice: {
@@ -137,14 +139,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 'bold',
     lineHeight: 20,
-    color: 'white',
+    color: colors.color1,
   },
   txtTitle: {
     fontFamily: 'Montserrat',
     fontSize: 17,
     fontWeight: 'bold',
     lineHeight: 21,
-    color: 'white',
+    color: colors.color1,
   },
   bottomView: {
     flex: 1,
@@ -156,7 +158,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '500',
     lineHeight: 16,
-    color: 'white',
+    color: colors.color1,
     marginLeft: 5,
   },
   txtTime: {
@@ -164,15 +166,9 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '600',
     lineHeight: 16,
-    color: 'white',
+    color: colors.color1,
     paddingLeft: 10,
   },
-  // overlapContainer: {
-  //   flexDirection: 'row-reverse',
-  //   justifyContent: 'flex-end',
-  //   marginTop: 20,
-  //   marginRight: 20,
-  // },
   avatarContainer: {
     borderRadius: 7,
     height: 14,
@@ -180,7 +176,7 @@ const styles = StyleSheet.create({
     marginLeft: -5,
     borderStyle: 'solid',
     borderWidth: 1,
-    borderColor: 'white',
+    borderColor: colors.color1,
   },
   avatar: {
     borderRadius: 6,

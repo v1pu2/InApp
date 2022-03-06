@@ -1,22 +1,17 @@
 import React from 'react';
 
-import {SafeAreaView, StyleSheet, StatusBar} from 'react-native';
+import {StatusBar} from 'react-native';
 import Navigator from './src/containers/Navigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import colors from './src/theme/colors';
+console.disableYellowBox = true;
 const App = () => {
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle="light-content" backgroundColor={'#7555CF'} />
+      <StatusBar barStyle="light-content" backgroundColor={colors.color2} />
       <Navigator />
     </SafeAreaProvider>
   );
 };
 
 export default App;
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    // backgroundColor: '#7555CF',
-  },
-});

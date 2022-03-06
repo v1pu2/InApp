@@ -6,6 +6,8 @@ import {
   TouchableWithoutFeedback,
   Animated,
 } from 'react-native';
+import {CONSTANT_VALUE} from '../constants';
+import colors from '../theme/colors';
 import fonts from '../theme/fonts';
 
 const AnimatedBUtton = ({onPress, isPrice}) => {
@@ -41,12 +43,12 @@ const AnimatedBUtton = ({onPress, isPrice}) => {
         style={[
           styles.priceBtnView,
           animatedScaleStyle,
-          {backgroundColor: isPrice ? '#11D0A2' : '#936EFE'},
+          {backgroundColor: isPrice ? colors.color8 : colors.color9},
         ]}>
         {isPrice ? (
           <Text style={styles.txtPrice}>{'{PRICE}'} - I’M IN!</Text>
         ) : (
-          <Text style={styles.txtPrice}>Close</Text>
+          <Text style={styles.txtPrice}>{CONSTANT_VALUE.CLOSE}</Text>
         )}
       </Animated.View>
     </TouchableWithoutFeedback>
@@ -64,7 +66,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   txtPrice: {
-    color: 'white',
+    color: colors.color1,
     ...fonts.normalM,
     fontSize: 16,
     lineHeight: 20,
