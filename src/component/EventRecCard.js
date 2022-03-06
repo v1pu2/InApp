@@ -21,7 +21,7 @@ const EventRecCard = props => {
         source={{uri: event?.mainImage}}
         resizeMode="cover"
         style={styles.image}
-        blurRadius={2}
+        // blurRadius={6}
         borderRadius={25}>
         <View style={styles.innerView}>
           <View style={styles.topView}>

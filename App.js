@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {SafeAreaView, StyleSheet, StatusBar} from 'react-native';
+import {StatusBar} from 'react-native';
 import Navigator from './src/containers/Navigator';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 const App = () => {
@@ -13,10 +13,3 @@ const App = () => {
 };
 
 export default App;
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    // backgroundColor: '#7555CF',
-  },
-});
