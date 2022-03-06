@@ -4,7 +4,7 @@ This App (InApp) has been designed and developed based on the [Figma link](https
 
 ## Demo
 
-![InApp - Animated gif demo](demo/demo.gif)
+<img src="/demo/demo.gif" width="355" height="710"/>
 
 ## Base dependencies
 
