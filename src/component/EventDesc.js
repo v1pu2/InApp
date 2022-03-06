@@ -64,11 +64,9 @@ const EventDesc = ({event, onPress, onLocationClick}) => {
             </View>
           </View>
 
-          <View style={styles.takeView}>
-            <Text style={styles.txtTake} onPress={onLocationClick}>
-              {CONSTANT_VALUE.TAKE_ME_THERE}
-            </Text>
-          </View>
+          <TouchableOpacity style={styles.takeView} onPress={onLocationClick}>
+            <Text style={styles.txtTake}>{CONSTANT_VALUE.TAKE_ME_THERE}</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.grayView} />
         <View style={styles.aboutView}>
@@ -76,15 +74,14 @@ const EventDesc = ({event, onPress, onLocationClick}) => {
           {/* on Click og email id, navigate to gmail with subject and description  */}
           <View style={styles.contactValueView}>
             <Text style={styles.txtContact}>{CONSTANT_VALUE.SEND_EMAIL} </Text>
-            <Text
-              style={styles.txtEmail}
+            <TouchableOpacity
               onPress={() =>
                 Linking.openURL(
                   'mailto:contact@techalchemy.co?subject=SendMail&body=Description',
                 )
               }>
-              {CONSTANT_VALUE.EMAIL_ID}
-            </Text>
+              <Text style={styles.txtEmail}>{CONSTANT_VALUE.EMAIL_ID}</Text>
+            </TouchableOpacity>
             <Text style={styles.txtContact}>{CONSTANT_VALUE.CALL_NUM}</Text>
           </View>
         </View>

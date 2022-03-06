@@ -2,7 +2,7 @@ export const CONSTANT_VALUE = {
   WELCOME: 'Welcome',
   REC_EVENTS: 'Recommended Events',
   ALL_EVENTS: 'All Events',
-  FRIENDS: 'friends',
+  FRIENDS: ' friends',
   PARTNERED: 'Partnered',
   TOTAL_PRICE: 'Total Price:',
   EVENT_CREATOR: 'Event Creator:',
