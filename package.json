@@ -8,7 +8,9 @@
     "start": "react-native start",
     "install:pods": "cd ios && pod install && cd ..",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "android-dev":"react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/ && sh ./scripts/clear-android-assets.sh &&  cd ./android && ./gradlew assembleDebug",
+    "android-release": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/ && sh ./scripts/clear-android-assets.sh &&  cd ./android && ./gradlew assembleRelease"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.11",
