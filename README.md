@@ -1,3 +1,5 @@
+[![Build Status](https://app.bitrise.io/app/81ba39d2c99f1454/status.svg?token=wjx8ZdPkkcwtmp3LcVPLHA&branch=master)](https://app.bitrise.io/app/81ba39d2c99f1454)
+
 # React Native Project InApp
 
 This App (InApp) has been designed and developed based on the [Figma link](https://www.figma.com/file/GNUmBwk2x8Eq28KyvA4Y0v/Mobile-Dev-Test?node-id=3665%3A11).
